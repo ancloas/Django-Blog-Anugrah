@@ -4,19 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>This is title</title>
-    <h1>this is header</h1>
+    <title>Document</title>
 </head>
 <body>
-{% block content%}
-
-{% endblock content %}
-
     <div>
-        <h1>This is body</h1>
+       <h1>{{ques.title}}</h1>
+       <h2>{{ques.priority}}</h2>
+       <h3>{{ques.question}}</h3>
     </div>
+
 </body>
-<footer>
-    <h2>this is the footer</h2>
-</footer>
 </html>
