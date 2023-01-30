@@ -1,12 +1,11 @@
 from django.shortcuts import render
-from personal.models  import Question
+from account.models import Account
 # Create your views here.
 def home_screen_view(request):
     context={}
     context['some_string']= "this is some string that i am passing to view"
-    
-    question_list=Question.objects.all();
-    context['question_list']=question_list
+    accounts=Account.objects.all();
+    context['account_list']=accounts
 
 
     return render(request, 'personal/home.html',context)
