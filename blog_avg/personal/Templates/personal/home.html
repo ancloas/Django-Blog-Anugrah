@@ -4,9 +4,6 @@
     <h1>This is the body</h1>
     <p>Here is where you put stuff that should be in the body of the websites.</p>
      {{some_string}}
-      {% for question in question_list %}
-           {% include 'personal/snippets/question_snippet.html' with ques=question %}
-       {% endfor %}    
-     
+     {% include 'personal/snippets/question_snippet.html'% value='BUBBLE OF THOUGHTS'}
 </div>
 {% endblock content%}
