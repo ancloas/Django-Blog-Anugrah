@@ -5,18 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>This is title</title>
-    <h1>this is header</h1>
+    <a href="{% url 'home' %}"> Home</a>
+    {% if request.user.is_authenticated %}
+        <p> Hello, {{request.user.username}} | <a href ="{% url 'logout' %}"> logout</a></p>
+    {% else %}
+        <a href ="{% url 'register' %}"> New user? Register here</a>
+        <p>Already a user? <a href = "{% url 'login' %}"> login </a> </p>
+    {% endif %}
+    <hr>
+
 </head>
 <body>
 {% block content%}
 
 {% endblock content %}
 
-    <div>
-        <h1>This is body</h1>
-    </div>
 </body>
 <footer>
-    <h2>this is the footer</h2>
+    <hr>
+    <p>this is the footer</p>
 </footer>
 </html>
