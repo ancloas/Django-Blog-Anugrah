@@ -9,8 +9,11 @@
     {% if request.user.is_authenticated %}
         <p> Hello, {{request.user.username}} | <a href ="{% url 'logout' %}"> logout</a></p>
     {% else %}
-        <a href ="{% url 'register' %}"> New user? Register here</a>
-        <p>Already a user? <a href = "{% url 'login' %}"> login </a> </p>
+    <p>   
+        <a href ="{% url 'register' %}"> New user? Register here</a> |
+        <p>Already a user? <a href = "{% url 'login' %}"> login </a> </p> 
+    </p>
+
     {% endif %}
     <hr>
 
