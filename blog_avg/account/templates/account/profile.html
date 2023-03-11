@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Profile</h2>
+<form method="post">{% csrf_token %}
+    {% for field in profile_form %}
+     <p>
+        {{field.label_tag}}
+        {{field}}
+         
+        {% if field.help_text %}
+            <small style="color: grey;">{{field.help_text}}</small>
+        {% endif %}
+
+        {% for error in field.errors %}
+             <p style="color:red;">{{error}}</p>
+        {% endfor %}
+     </p>
+    {% endfor %}
+
+    {% if profile_form.non_field_errors %}
+    <div style="color: red;">
+    <p> {{profile_form.non_field_errors}} </p>
+    </div>
+    {% endif %}
+    
+    <button type="submit">Save Changes</button>
+</form>
+{% endblock content%}
