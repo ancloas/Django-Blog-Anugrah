@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
 <!--<div style="border: 5px solid rgb(255, 7, 7)">-->
-    <h1>This is the body</h1>
-    <p>Here is where you put stuff that should be in the body of the websites.</p>
-     {{some_string}}
-     {% for account in account_list %}
-        <p>{{account}}</p>
+<div>
+   <h1 class ="display-4">Welcome to my first website</h1>
+    <p class="lead"lead>I will be using this to shout out loud</p>
+</div>    
 
-     {% endfor %}
-
-     {% include 'personal/snippets/body_snippet.html'% value='BUBBLE OF THOUGHTS'}
+<div class="container">
+<div class="d-flex flex-column">
+   <h4>Registered Users:</h4>
+   {% for account in account_list %}
+      <p>{{account}}</p>
+   {% endfor %}
 </div>
+
+</div>
+
+{% include 'personal/snippets/body_snippet.html' with value='BUBBLE OF THOUGHTS' %}
 {% endblock content%}

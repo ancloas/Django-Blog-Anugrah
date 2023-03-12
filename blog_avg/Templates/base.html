@@ -5,29 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>This is title</title>
-    <a href="{% url 'home' %}"> Home</a>
-    {% if request.user.is_authenticated %}
-        <p> Hello, {{request.user.username}} | 
-            <a href ="{% url 'profile' %}"> Profile</a> |
-            <a href ="{% url 'logout' %}"> logout</a></p>
-    {% else %}
-    <p>   
-        <a href ="{% url 'register' %}"> New user? Register here</a> |
-        <p>Already a user? <a href = "{% url 'login' %}"> login </a> </p> 
-    </p>
 
-    {% endif %}
-    <hr>
-
+    {% include 'snippets/header.html '  %}    
 </head>
 <body>
-{% block content%}
+    <!--Body-->
+    <style type ='text/css'>
+        .main{
+                min-height: 100vh;
+                height: 100%;
+        }
+    </style>
+    <div class="main">
+        {% block content%}
 
-{% endblock content %}
+        {% endblock content %}
+    </div>
+
+    <!--End Body-->
+
+    {% include 'snippets/footer.html '  %}    
 
 </body>
-<footer>
-    <hr>
-    <p>this is the footer</p>
-</footer>
+
 </html>
