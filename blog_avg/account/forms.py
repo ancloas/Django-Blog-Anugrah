@@ -13,7 +13,7 @@ class RegistrationForm(UserCreationForm):
         fields= ('email','username', 'password1', 'password2')
 
 class Login_Auth_Form(forms.ModelForm):
-    password =forms.CharField(label='Password', widget=forms.PasswordInput)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
     class Meta:
         model = Account

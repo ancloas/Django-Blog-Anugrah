@@ -1,23 +1,85 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Registration</h2>
-<form method="post">{% csrf_token %}
-    {% for field in registration_form %}
-     <p>
-        {{field.label_tag}}
-        {{field}}
-         
-        {% if field.help_text %}
-            <small style="color: grey;">{{field.help_text}}</small>
+
+
+<style>
+
+    .form-signin {
+      max-width: 330px;
+      padding: 15px;
+    }
+    
+    .form-signin .form-floating:focus-within {
+      z-index: 2;
+    }
+    
+    .form-signin input[type="email"] {
+      margin-bottom: 10px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    
+    .form-signin input[type="text"] {
+      margin-bottom: 10px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    
+    .form-signin input[type="password"] {
+      margin-bottom: -1px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    
+    .h3{
+     text-align: center;   
+    }
+</style>
+    
+    <form class="form-signin m-auto" method="post">{% csrf_token %}
+        <img class="mb-4" src="C:\Repository\Django Blog repo\Django-Blog-Anugrah\blog_avg\images\luffy.jpg" alt="" width="72" height="57">
+        <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
+    
+        <div class="form-floating">
+          <input type="email" name ="email" class="form-control form-signin input" id="floatingInput" placeholder="name@example.com"
+          required autofocus>
+          <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" name ="username" class="form-control form-signin input" id="inputUsername" placeholder="username" required>
+            <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" name="password1" class="form-control form-signin input" id="floatingPassword" placeholder="Password" required>
+          <label for="floatingPassword">Password</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" name="password2" class="form-control form-signin input" id="floatingPassword" placeholder="Confirm Password" required>
+            <label for="floatingPassword">Confirm Password</label>
+        </div>
+        {% for field in registration_form %}
+         <p>
+            {% for error in field.errors %}
+                 <p style="color:red;">{{error}}</p>
+            {% endfor %}
+         </p>
+        {% endfor %}
+        
+        {% if registration_form.non_field_errors %}
+        <div style="color: red;">
+        <p> {{registration_form.non_field_errors}} </p>
+        </div>
         {% endif %}
 
-        {% for error in field.errors %}
-             <p style="color:red;">{{error}}</p>
-        {% endfor %}
+        
+        {% if success_message %}
+         <p style="color:green; text-align: center;">{{success_message}}
+        </p>
+        {% endif %}
+    
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+        <p class="mt-5 mb-3 text-muted">© 2017–2022</p>
+      </form>
+    {% endblock content%}
+    
 
-     </p>
-    {% endfor %}
-
-    <button type="submit">Register</button>
-</form>
-{% endblock content%}

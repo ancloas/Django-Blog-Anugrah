@@ -1,28 +1,65 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Login</h2>
-<form method="post">{% csrf_token %}
+
+<style>
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+
+</style>
+
+<form class="form-signin m-auto" method="post">{% csrf_token %}
+    <img class="mb-4" src="C:\Repository\Django Blog repo\Django-Blog-Anugrah\blog_avg\images\luffy.jpg" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+    <div class="form-floating">
+      <input type="email" name ="email" class="form-control form-signin input" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" name="password" class="form-control form-signin input" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
     {% for field in login_form %}
      <p>
-        {{field.label_tag}}
-        {{field}}
-         
-        {% if field.help_text %}
-            <small style="color: grey;">{{field.help_text}}</small>
-        {% endif %}
-
         {% for error in field.errors %}
              <p style="color:red;">{{error}}</p>
         {% endfor %}
      </p>
     {% endfor %}
-
+    
     {% if login_form.non_field_errors %}
     <div style="color: red;">
     <p> {{login_form.non_field_errors}} </p>
     </div>
     {% endif %}
-    
-    <button type="submit">Log In</button>
-</form>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">© 2017–2022</p>
+  </form>
 {% endblock content%}
+
+
+
+    
+  
+
