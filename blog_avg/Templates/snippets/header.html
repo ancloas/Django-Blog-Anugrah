@@ -17,15 +17,14 @@
   outline: 0;
 }
 
+.header_color{
+  background-color: rgb(105, 190, 240);
+}
 </style>
-<header> 
-<div class="container">
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-      <a href="{% url 'home' %}" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-          </a>
-     
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+
+<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom shadow-sm header_color">
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 m-auto">
         <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Home</a></li>
         <li><a href="#" class="nav-link px-2 link-secondary">About</a></li>
         <li><a href="#" class="nav-link px-2 link-secondary">Contact</a></li>
@@ -37,22 +36,18 @@
             </form>
     
             <div class="dropdown text-end">
-              <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{request.user.username}}</a>
+              <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle px-2" data-bs-toggle="dropdown" aria-expanded="false">{{request.user.username}}</a>
               <ul class="dropdown-menu text-small">
                 <li><a class="dropdown-item" href="#">Update DP</a></li>
                 <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
               </ul>
-            </div>
-        </div>
-        
+            </div>        
     {% else %}
         <div class="col-md-3 text-end">
             <a href ="{% url 'login' %}"><button type="button" class="btn btn-outline-primary me-2">Login</button></a>
             <a href ="{% url 'register' %}"><button type="button" class="btn btn-primary">Sign-up</button></a>
         </div>
-
     {% endif %}
 </div>
-</header>

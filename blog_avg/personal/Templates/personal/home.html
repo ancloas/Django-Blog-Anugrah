@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <!--<div style="border: 5px solid rgb(255, 7, 7)">-->
-<div>
+<div class="container m-auto">
    <h1 class ="display-4">Welcome to my first website</h1>
     <p class="lead"lead>I will be using this to shout out loud</p>
 </div>    
@@ -12,9 +12,10 @@
    {% for account in account_list %}
       <p>{{account}}</p>
    {% endfor %}
+   <p>{% include 'personal/snippets/body_snippet.html' with value='BUBBLE OF THOUGHTS' %}
+   </p>
 </div>
 
 </div>
 
-{% include 'personal/snippets/body_snippet.html' with value='BUBBLE OF THOUGHTS' %}
 {% endblock content%}

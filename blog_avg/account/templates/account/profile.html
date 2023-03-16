@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
 
 
@@ -29,7 +31,10 @@
 
 
 <form class="form-signin m-auto" method="post">{% csrf_token %}
-    <img class="mb-4" src="C:\Repository\Django Blog repo\Django-Blog-Anugrah\blog_avg\images\luffy.jpg" alt="" width="72" height="57">
+  <div class = "d-flex flex-column pb-3">
+    <img class="img-fluid mx-auto d-block" src="{% static 'pen and script.jpg' %}" alt="pen and script" width="100" height="100"> 
+  </div>
+
     <h1 class="h3 mb-3 fw-normal">Profile</h1>
 
     <div class="form-floating">
