@@ -73,3 +73,6 @@ def profile_view(request):
                                 )
     context['profile_form']= form
     return render(request, 'account/profile.html', context)
+
+def must_authenticate_view(request):
+    return render(request, 'account/must_authenticate.html', {})
