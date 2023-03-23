@@ -74,7 +74,7 @@ def profile_view(request):
                                 )
     context['profile_form']= form
 
-    blog_posts= BlogPost.objects.filter(author=request.user)
+    blog_posts= BlogPost.objects.filter(author=request.user) #filtering all blog_posts for current user
     context['blog_posts']=blog_posts
 
 
