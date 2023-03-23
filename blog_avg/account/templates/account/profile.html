@@ -26,7 +26,12 @@
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }
-    
+    .blog-posts
+    {
+      max-width: 500px;
+      width: 100%;
+      margin: auto;
+    }
 </style>
 
 
@@ -69,5 +74,25 @@
   
   <div class ="d-flex flex-column">
     <a  class= "m-auto" href="{% url 'password_change' %}"> Change Password</a>
+  </div>
+
+  <!--blog posts list of user-->
+  <div class="container mt-4 p-4">
+    <div class ="row">
+      <div class="blog-posts">
+        <h3 class="mb-3 font-weight-normal">Blog Posts:</h3>
+          {% if blog_posts %}
+          <ul class="list-group">
+          {% for post in blog_posts %}
+          <a href="{% url 'blog:detail' post.slug %}" style="text-decoration: none;">
+            <li class="list-group-item">{{post}}</li>
+          </a>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>You don't have any blog posts. <a href="{% url 'blog:create' %}">Create a mew post</a></p>
+        {% endif %}
+      </div>
+    </div>
   </div>
 {% endblock content%}
