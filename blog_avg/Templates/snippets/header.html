@@ -11,6 +11,7 @@
 
 .text-small {
   font-size: 85%;
+  color:aliceblue;
 }
 
 .dropdown-toggle {
@@ -18,23 +19,32 @@
 }
 
 .header_color{
-  background-color: rgb(82, 214, 137);
+  background-color: rgb(170, 196, 112);
+  color:#fff;
+}
+
+.search-bar{
+ max-width: 500px;
+ width: 100% 
 }
 </style>
 
 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom shadow-sm header_color">
 
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 m-auto">
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 m-auto">
         <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Home</a></li>
         <li><a href="#" class="nav-link px-2 link-secondary">About</a></li>
         <li><a href="#" class="nav-link px-2 link-secondary">Contact</a></li>
-      </ul>
-    {% if request.user.is_authenticated %}
+    </ul>
+      
+    <div class="search-bar mt-sm-2 mr-2">
+      <form method="get" role="search">{% csrf_token %}
+        <input type="text" class="form-control" name="q" id= "id_q" placeholder="Search..." value="{{query}}">
+      </form>
+    </div>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-              <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form>
-    
+    {% if request.user.is_authenticated %}
+        
             <div class="dropdown text-end">
               <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle px-2" data-bs-toggle="dropdown" aria-expanded="false">{{request.user.username}}</a>
               <ul class="dropdown-menu text-small">
