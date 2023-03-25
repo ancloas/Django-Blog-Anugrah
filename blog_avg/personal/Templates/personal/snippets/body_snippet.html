@@ -1,5 +1,4 @@
 {% load static %}
-<div class="left-column col-lg-8 offset-lg-1">
 
     <!-- Top 'create post' bar -->
     <div class="d-lg-none mb-3">
@@ -13,7 +12,7 @@
     {% if blog_posts %}
     <!-- Blog posts-->
         {% for post in blog_posts %}
-        <div class="blog-post-container"  style="background-color: rgb(252, 244, 244);">
+        <div class="blog-post-container">
             {% include 'blog/snippets/blog_post_snippet.html' with blog_post=post %}
         </div>
         {% endfor %}
@@ -28,4 +27,3 @@
     {% include 'blog/snippets/blog_post_pagination.html' with blog_posts=blog_posts%}
     <!--End Pagination-->
 
-</div>

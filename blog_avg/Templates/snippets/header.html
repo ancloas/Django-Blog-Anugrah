@@ -30,7 +30,8 @@
  width: 100% 
 }
 </style>
-<div class="container-fluid">
+<div>
+<div class="container">
   <div class="row">
   <div class="left-column col-lg-2 p-0"> 
     <a href="{% url 'home' %}" >    
@@ -42,7 +43,7 @@
   </div>
 </div>
 </div>
-
+<div class="container p-0">
 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom shadow-sm header_color">
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 m-auto">
@@ -74,4 +75,6 @@
             <a href ="{% url 'register' %}"><button type="button" class="btn btn-primary">Sign-up</button></a>
         </div>
     {% endif %}
+</div>
+</div>
 </div>

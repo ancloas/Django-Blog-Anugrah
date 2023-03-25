@@ -32,21 +32,24 @@
 
 	.right-column{
 		padding:0px;
-		float: right;
 	}
 	.lead{
 		font-size: 17px;
 	}
 </style>
-<div class="container-fluid">
+<div class="container p-0">
 	<div class="row">
 		<!-- blog feed -->
+		<div class="col-lg-8 p-0">
 		{% include 'personal/snippets/body_snippet.html'%}
+		</div>
 		<!-- end blog feed -->
 
 
 		<!-- Right 'create post' column  -->
+		<div class="col-lg-2 offset-lg-2 d-lg-flex d-none flex-column">
 		{% include 'personal/snippets/right_side_snippet.html'%}
+		</div>
 		<!-- end Right 'create post' column  -->
 
 	</div>
