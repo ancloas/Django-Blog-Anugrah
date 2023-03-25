@@ -1,6 +1,6 @@
 <style type="text/css">
 	.card{
-		max-width: 700px;
+		max-width: 100%;
 		width:100%;
 	}
 	.card-body{
@@ -10,7 +10,7 @@
 
 {% if blog_post %}
 <div class="container">
-	<div class="row">
+	<div class="column">
 		<!-- Blog Post -->
 		<div class="card m-auto">
 			<a href="{% url 'blog:detail' post.slug %}">

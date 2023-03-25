@@ -1,4 +1,6 @@
 
+{% load static %}
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 <style>
     .form-control-dark {
@@ -19,7 +21,7 @@
 }
 
 .header_color{
-  background-color: rgb(235, 227, 184);
+  background-color: rgba(184, 183, 175, 0.555);
   color:#fff;
 }
 
@@ -28,6 +30,18 @@
  width: 100% 
 }
 </style>
+<div class="container-fluid">
+  <div class="row">
+  <div class="left-column col-lg-2 p-0"> 
+    <a href="{% url 'home' %}" >    
+      <img src="{% static 'Bubble of Thoughts.png' %}" alt="Bubble of Thoughts" width="100%" height="200px"> 
+    </a>
+  </div>
+  <div class="left-column col-lg-10 p-0">
+    <img src="{% static 'Bubble of Thoughts theme.png' %}" alt="Bubble of Thoughts theme" width="100%" height="200px"> 
+  </div>
+</div>
+</div>
 
 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom shadow-sm header_color">
 
