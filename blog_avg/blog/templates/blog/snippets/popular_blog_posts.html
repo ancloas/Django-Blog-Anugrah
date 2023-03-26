@@ -1,0 +1,52 @@
+<style type="text/css">
+	.card{
+		max-width: 100%;
+		width:100%;
+	}
+	.card-body{
+		padding: 20px;
+	}
+    .highlighted_post{
+        max-height: 100%;
+    }
+    .popular_post_section{
+        margin-bottom: 5px;
+    }
+    .popular_post{
+        margin: 10px;
+        padding: 0px;
+        max-height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+    }
+    .right_col{
+      margin-right: 0px;
+    }
+    .left_col{
+      margin-left: 0px;
+    }
+</style>
+
+    <div class="blog-post-container highlighted_post">
+        {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
+     </div>
+
+<div class="container popular_post_section">
+    <div class="row">
+        <div class="blog-post-container col popular_post left_col">
+            {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
+        </div>
+        <div class="blog-post-container col popular_post right_col">  
+            {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="blog-post-container col popular_post left_col">
+            {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
+        </div>
+
+        <div class="blog-post-container col popular_post right_col">
+            {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
+        </div>
+    </div>
+</div>

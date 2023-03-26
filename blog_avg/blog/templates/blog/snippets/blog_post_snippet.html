@@ -2,35 +2,41 @@
 	.card{
 		max-width: 100%;
 		width:100%;
+		max-height: 100%;
 	}
 	.card-body{
 		padding: 20px;
 	}
+	.hide
+	{
+		display: none;
+	}
+	.hidden_footer:hover + .hide {
+		display: block;
+		background-color: bisque;
+	}
 </style>
 
 {% if blog_post %}
-<div class="container">
-	<div class="column">
+<div class="container p-0">
 		<!-- Blog Post -->
-		<div class="card m-auto">
-			<a href="{% url 'blog:detail' post.slug %}">
+		<div class="card">
+			<div class="hidden_footer"> 
+			<a href="{% url 'blog:detail' blog_post.slug %}">
 				<img class="card-img-top" src="{{blog_post.image.url}}">
 			</a>
+			</div>
+			<div class="card-footer text-muted hide">
+				{{blog_post.date_updated}}           by {{blog_post.author}}
+			</div>
 			
 			<div class="card-body mt-2 mb-2">
-				<a href="{% url 'blog:detail' post.slug %}">
+				<a href="{% url 'blog:detail' blog_post.slug %}">
 					<h2 class="card-title">{{blog_post.title}}</h2>
 				</a>
 				<p class="card-text">{{blog_post.body|safe|truncatechars:180}}</p>
-				{% if blog_post.author == request.user %}
-					<a href="{% url 'blog:edit' blog_post.slug %}" class="btn btn-primary">Update</a>
-				{% endif %}
-			</div>
-			<div class="card-footer text-muted">
-			  Updated on {{blog_post.date_updated}} by {{blog_post.author}}
 			</div>
 		</div>
-	</div>
 </div>
 {% else %}
 <div class="container">

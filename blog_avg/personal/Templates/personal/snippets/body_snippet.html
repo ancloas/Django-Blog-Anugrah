@@ -1,7 +1,8 @@
 {% load static %}
 
+<div class="container">
     <!-- Top 'create post' bar -->
-    <div class="d-lg-none mb-3">
+    <div class="row d-lg-none mb-3">
         <div class="card m-auto d-flex flex-column p-3">
             <img class="img-fluid d-block m-auto pb-2" src="{% static 'codingwithmitch_logo.png' %}" width="72" height="72">
             <p class="lead">Side Bar</p>
@@ -9,8 +10,19 @@
         </div>
     </div>
     <!-- end Top 'create post' bar -->
+
+
+
     {% if blog_posts %}
+    
+    <!--Popular Blog Posts-->
+    <div class="blog-post-container">
+        {% include 'blog/snippets/popular_blog_posts.html' with blog_post=blog_posts.0 %}
+    </div>
+    <!--End Popular Blog Posts-->
+<div class="row">
     <!-- Blog posts-->
+            <h5> latest blog posts </h5>
         {% for post in blog_posts %}
         <div class="blog-post-container">
             {% include 'blog/snippets/blog_post_snippet.html' with blog_post=post %}
@@ -21,9 +33,11 @@
             {% include 'blog/snippets/blog_post_snippet.html' with query=query%}
         </div>
         {% endif %}
+</div>
     <!-- End Blog posts-->
     
     <!--Pagination-->
     {% include 'blog/snippets/blog_post_pagination.html' with blog_posts=blog_posts%}
     <!--End Pagination-->
 
+</div>
