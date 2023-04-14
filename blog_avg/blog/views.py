@@ -8,7 +8,6 @@ from account.models import Account
 
 
 def create_blog_view(request):
-	
     context= {}
     user = request.user
     if not user.is_authenticated:
@@ -21,7 +20,9 @@ def create_blog_view(request):
         obj.author=author
         obj.save()  
         form =  CreateBlogPostForm()
-    
+        context['is_saved']=True
+        
+
     context['form'] =   form
 
     return render(request, 'blog/create_blog.html', context)

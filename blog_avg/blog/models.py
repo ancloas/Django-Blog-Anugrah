@@ -13,7 +13,7 @@ def upload_location(instance, filename, **kwargs):
 
 class BlogPost(models.Model):
     title               = models.CharField(max_length=100, null=False, blank=False)
-    body                = models.CharField(max_length=5000, null=False, blank=False)    
+    body                = models.CharField(max_length=10000, null=False, blank=False)    
     image               = models.ImageField(upload_to=upload_location, null=False, blank=False)    
     date_published      = models.DateTimeField(auto_now_add=True, verbose_name="date published")        
     date_updated        = models.DateTimeField(auto_now=True, verbose_name="date updated")        

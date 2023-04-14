@@ -39,6 +39,26 @@
 					<input  type="file" name="image" id="id_image" accept="image/*" required>
 				</div>
 
+				<!--Printing field errors in the form-->
+				{% for field in form %}
+					<p>
+						{% for error in field.errors %}
+							<p style="color: red">{{ error }}</p>
+						{% endfor %}
+					</p>
+				{% endfor %}
+				{% if form.non_field_errors %}
+					<div style="color: red">
+						<p>{{form.non_field_errors}}</p>
+					</div>
+				{% endif %}
+
+
+				<!--Success Message-->
+				{% if is_saved %}
+					<p>the blog is saved correctly</p>
+				{% endif %}
+				
 				<!-- Submit btn -->
 				<button class="submit-button btn btn-lg btn-primary btn-block" type="submit">POST</button>
 			</form>	
