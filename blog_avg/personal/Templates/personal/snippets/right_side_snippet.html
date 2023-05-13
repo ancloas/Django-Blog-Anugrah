@@ -1,32 +1,96 @@
 {% load static %}
 
-    <div class="card create-post-bar d-flex flex-column p-3">
-        <img class="img-fluid d-block m-auto pb-2" src="{% static 'pen and script.jpg' %}" width="72" height="72">
-        <p class="lead">Side Bar</p>
-        <p class="m-auto"><a class="btn btn-primary" href="{% url 'blog:create' %}">Create post</a></p>
-    </div>
 
-    <!--Social Media Follow-->
-    <div>
-        <a href="https://www.facebook.com/">    
-            <img src="{% static 'facebook button.png' %}" alt="facebook"  width="30%" height="50px"> 
-        </a>
-        <a href="https://www.instagram.com/" >    
-            <img src="{% static 'insta logo.png' %}" alt="instagram" width="30%" height="50px"> 
-        </a>
-    </div>
-    <!--End Social Media Follow-->
+<style>
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  padding: 20px;
+}
 
-    <!--Recent Posts-->
-    <div>
+.email-subscriber {
+  margin-bottom: 20px;
+}
 
-    </div>
-    <!--End Recent Posts-->
-    <!--Ad-->
-    <div>
+.email-subscriber h3 {
+  margin-bottom: 10px;
+}
 
+.email-subscriber input[type="email"],
+.email-subscriber button {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+}
+
+.email-subscriber input[type="email"] {
+  width: 100%;
+  margin-right: 10px;
+}
+
+.email-subscriber button {
+  background-color: #394b74;
+  color: #fff;
+  cursor: pointer;
+}
+
+.social-media h3 {
+  margin-bottom: 10px;
+}
+
+.social-media ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.social-media li {
+  margin-right: 10px;
+}
+
+.social-media li:last-child {
+  margin-right: 0;
+}
+
+.social-media a {
+  color: #fff;
+  font-size: 20px;
+  display: block;
+  height: 50px;
+  width: 50px;
+  background-color: #394b74;
+  text-align: center;
+  line-height: 50px;
+  border-radius: 50%;
+}
+body {
+    padding-top: 80px;
+}
+
+</style>
+
+<div class="sidebar">
+    <!-- Email Subscriber field -->
+    <div class="email-subscriber">
+      <h3>Subscribe to our newsletter</h3>
+      <form action="#">
+        <input type="email" placeholder="Enter your email">
+        <button type="submit">Subscribe</button>
+      </form>
     </div>
-    <!--End Ad-->
     
-<!-- end Right 'create post' column  -->
-
+    <!-- Social media follow icons -->
+    <div class="social-media">
+      <h3>Follow us</h3>
+      <ul>
+        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+      </ul>
+    </div>
+  </div>
+  
