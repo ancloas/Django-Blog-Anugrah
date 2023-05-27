@@ -1,52 +1,87 @@
 <style type="text/css">
-	.card{
-		max-width: 100%;
-		width:100%;
-	}
-	.card-body{
-		padding: 20px;
-	}
-    .highlighted_post{
+
+  .highlighted_post{
         max-height: 100%;
-    }
-    .popular_post_section{
-        margin-bottom: 5px;
-    }
-    .popular_post{
-        margin: 10px;
-        padding: 0px;
-        max-height: 100%;
-        max-width: 100%;
-        max-height: 100%;
-    }
-    .right_col{
-      margin-right: 0px;
-    }
-    .left_col{
-      margin-left: 0px;
-    }
+        flex: 1;
+  }
+  .popular h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .popular .card {
+    margin-bottom: 30px;
+    width: 400px;
+    min-height: 400px;
+    max-height: 100%;
+    border: none;
+  }
+  
+  .popular .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .popular .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgb(6, 47, 109)
+  }
+  
+  
+  .popular .btn-primary {
+    background-color: #002864;
+    border-color: #002864;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+  
+  .popular .btn-primary:hover {
+    background-color: #3b3531;
+    border-color: #2c3e50;
+  }
+  .no-underline {
+  text-decoration: none;
+}
+.popular .card-footer {
+  text-align: center;
+  border: none;
+  margin-top: 5px;
+}
+
+.popular .card-footer-text {
+    font-size: 1.0rem;
+    color: #a50000;
+  }
 </style>
-
-    <div class="blog-post-container highlighted_post">
-        {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
-     </div>
-
-<div class="container popular_post_section">
-    <div class="row">
-        <div class="blog-post-container col popular_post left_col">
-            {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
+<!-- 
+<div class="blog-post-container highlighted_post">
+    {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
+</div> -->
+<section class="popular">
+    <div class="container">
+      <h2>Popular Posts</h2>
+      <div class="row">
+        {% for post in popular_posts %}
+        <div class="col-md-6">
+          <div class="card">
+            <a href="{% url 'blog:detail' post.slug %}">
+              <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-img-top">
+            </a>
+            <div class="card-body">
+              <a href="{% url 'blog:detail' post.slug %}" class="no-underline">
+                <h5 class="card-title">{{ post.title }}</h5> 
+              </a>
+            </div>
+            <div class="popular card-footer"> 
+            <p class="card-footer-text"><small class="text-muted">{{ post.date_published|date:"F j, Y" }} by {{ post.author }}</small></p>
+            <a href="{% url 'blog:detail' post.slug %}" class="btn btn-primary">Read More</a>
+            </div>
+          </div>
         </div>
-        <div class="blog-post-container col popular_post right_col">  
-            {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
-        </div>
+        {% endfor %}
+      </div>
     </div>
-    <div class="row">
-        <div class="blog-post-container col popular_post left_col">
-            {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
-        </div>
-
-        <div class="blog-post-container col popular_post right_col">
-            {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
-        </div>
-    </div>
-</div>
+  </section>
