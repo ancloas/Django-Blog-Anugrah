@@ -1,18 +1,6 @@
 {% load static %}
 
 <div class="container">
-    <!-- Top 'create post' bar -->
-    <div class="row d-lg-none mb-3">
-        <div class="card m-auto d-flex flex-column p-3">
-            <img class="img-fluid d-block m-auto pb-2" src="{% static 'codingwithmitch_logo.png' %}" width="72" height="72">
-            <p class="lead">Side Bar</p>
-            <p class="m-auto"><a class="btn btn-primary" href="{% url 'blog:create' %}">Create post</a></p>
-        </div>
-    </div>
-    <!-- end Top 'create post' bar -->
-
-
-
     {% if blog_posts %}
     
     <!--Popular Blog Posts-->
@@ -27,7 +15,7 @@
         <div class="blog-post-container">
             {% include 'blog/snippets/blog_post_snippet.html' with query=query%}
         </div>
-        {% endif %}
+    {% endif %}
 </div>
     <!-- End Latest Blog posts-->
     
