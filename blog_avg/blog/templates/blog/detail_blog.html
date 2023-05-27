@@ -1,42 +1,85 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
+<style type="text/css">
 
-<style>
-    .card{
-        max-width: 700px;
-    }
+	@media (max-width: 768px) { 
+		.right-column{
+			margin-left: 0px;
+		}
+	}
 
-    .container{
-        padding: 20px;
+	@media (min-width: 768px) { 
+		.right-column{
+			margin-left: 20px;
+		}
+	}
+
+    .card {
+        border: none;
     }
-   
+	.lead{
+		font-size: 17px;
+	}
+    .blog-post-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #434745;
+  margin-bottom: 30px;
+  /* Add other styles as needed */
+    }
+    .blog-post-body {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
+  /* Add other styles as needed */
+}
+
+
+
 </style>
 
-<div class="container">
-    <div class="row">
-        <!--Blog Post-->
-        <div class="card m-auto">
-            <img class= "card-img-top" src="{{blog_post.image.url}}">
-            <div class="card-body my-2">
-                <h2 class="card-title">{{blog_post.title}}</h2>
-                <p class="card-text">{{blog_post.body|safe}}</p>
-                {% if blog_post.author == request.user %}
-                    <a href="{% url 'blog:edit' blog_post.slug %}" class="btn btn-primary">Update</a>
-                {% endif %}
 
-            </div>
-            <div class="card-footer text-muted">
+
+
+<div class="container p-0">
+	<div class="row">
+		<!-- blog feed -->
+		<div class="col-lg-9 p-0">
+		<div class="container">
+            <div class="row">
+            <!--Blog Post-->
+                <div class="card m-auto">
+                    <h2 class="blog-post-title">{{blog_post.title}}</h2>
+                    <img class= "card-img-top" src="{{blog_post.image.url}}">
+                    <div class="blog-post-body">
+                       {{blog_post.body|safe}}
+                        {% if blog_post.author == request.user %}
+                            <p><a href="{% url 'blog:edit' blog_post.slug %}" class="btn btn-primary">Update</a></p>
+                        {% endif %}
+                    </div>
+                <div class="card-footer text-muted">
                 Updated on {{blog_post.date_updated}} by {{blog_post.author}}
+                </div>
             </div>
-        </div>
-
-        
-
         <!--End Blog Post-->
+        </div>
     </div>
 </div>
+		<!-- end blog feed -->
 
 
-{% endblock content%}
+		<!-- Right 'create post' column  -->
+		<div class="col-lg-3 d-lg-flex d-none flex-column">
+		{% include 'personal/snippets/right_side_snippet.html'%}
+		</div>
+		<!-- end Right 'create post' column  -->
+
+	</div>
+</div>
+
+{% endblock content %}
+
+
+

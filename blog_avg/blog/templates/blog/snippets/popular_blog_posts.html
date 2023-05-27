@@ -1,34 +1,9 @@
 <style type="text/css">
-	.card{
-		max-width: 100%;
-		width:100%;
-	}
-	.card-body{
-		padding: 20px;
-	}
-    .highlighted_post{
+
+  .highlighted_post{
         max-height: 100%;
-    }
-    .popular_post_section{
-        margin-bottom: 5px;
-    }
-    .popular_post{
-        margin: 10px;
-        padding: 0px;
-        max-height: 100%;
-        max-width: 100%;
-        max-height: 100%;
-    }
-    .right_col{
-      margin-right: 0px;
-    }
-    .left_col{
-      margin-left: 0px;
-    }
-    .popular {
-    padding: 60px 0;
+        flex: 1;
   }
-  
   .popular h2 {
     font-size: 2.5rem;
     font-weight: 700;
@@ -38,8 +13,10 @@
   
   .popular .card {
     margin-bottom: 30px;
-    height: 400px;
     width: 400px;
+    min-height: 400px;
+    max-height: 100%;
+    border: none;
   }
   
   .popular .card-img-top {
@@ -50,27 +27,34 @@
   .popular .card-title {
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    color: rgb(6, 47, 109)
   }
   
-  .popular .card-text {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 15px;
-  }
   
   .popular .btn-primary {
-    background-color: #3f51b5;
-    border-color: #3f51b5;
-    font-size: 1.2rem;
+    background-color: #002864;
+    border-color: #002864;
+    font-size: 0.7rem;
     font-weight: 700;
   }
   
   .popular .btn-primary:hover {
-    background-color: #2c3e50;
+    background-color: #3b3531;
     border-color: #2c3e50;
   }
-  
+  .no-underline {
+  text-decoration: none;
+}
+.popular .card-footer {
+  text-align: center;
+  border: none;
+  margin-top: 5px;
+}
+
+.popular .card-footer-text {
+    font-size: 1.0rem;
+    color: #a50000;
+  }
 </style>
 <!-- 
 <div class="blog-post-container highlighted_post">
@@ -87,10 +71,13 @@
               <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-img-top">
             </a>
             <div class="card-body">
-              <h5 class="card-title">{{ post.title }}</h5>
-              <p class="card-text">{{ post.summary }}</p>
-              <p> {{post.read_count}}</p>
-              <a href="{% url 'blog:detail' post.slug %}" class="btn btn-primary">Read More</a>
+              <a href="{% url 'blog:detail' post.slug %}" class="no-underline">
+                <h5 class="card-title">{{ post.title }}</h5> 
+              </a>
+            </div>
+            <div class="popular card-footer"> 
+            <p class="card-footer-text"><small class="text-muted">{{ post.date_published|date:"F j, Y" }} by {{ post.author }}</small></p>
+            <a href="{% url 'blog:detail' post.slug %}" class="btn btn-primary">Read More</a>
             </div>
           </div>
         </div>

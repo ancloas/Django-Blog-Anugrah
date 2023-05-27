@@ -63,7 +63,7 @@
         </div>
         <div class="post-content">
           <h3><a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a></h3>
-          <p class="post-body">{{ post.body|truncatewords:30 }}</p>
+          <p class="post-body">{{ post.get_excerpt }}</p>
           <p class="post-meta"><small>{{ post.date_published|date:"F j, Y" }} by {{ post.author }}</small></p>
         </div>
       </div>
