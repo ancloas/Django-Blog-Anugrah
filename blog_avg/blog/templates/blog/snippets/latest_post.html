@@ -1,7 +1,7 @@
 
 <style>
     .latest-posts {
-      padding: 20px;
+      padding: 0px;
     }
   
     .latest-posts h2 {
@@ -13,9 +13,8 @@
     .post {
       display: flex;
       align-items: center;
-      margin-bottom: 30px;
-      padding-bottom: 30px;
-      border-bottom: 1px solid #ccc;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
     }
   
     .post-image {
@@ -50,6 +49,10 @@
       font-size: 14px;
       color: #666;
     }
+    .link{
+      text-decoration: none;
+      color: rgb(6, 47, 109)
+    }
   </style>
 
 <div class="latest-posts">
@@ -62,7 +65,7 @@
           <a href="{% url 'blog:detail' post.slug %}"><img src="{{ post.image.url }}" alt="{{ post.title }}"></a>
         </div>
         <div class="post-content">
-          <h3><a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a></h3>
+          <h3><a href="{% url 'blog:detail' post.slug %}" class="link">{{ post.title }}</a></h3>
           <p class="post-body">{{ post.get_excerpt }}</p>
           <p class="post-meta"><small>{{ post.date_published|date:"F j, Y" }} by {{ post.author }}</small></p>
         </div>

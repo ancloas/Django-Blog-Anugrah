@@ -47,9 +47,9 @@
 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom shadow-sm header_color">
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 m-auto">
-        <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2 link-secondary">About</a></li>
-        <li><a href="#" class="nav-link px-2 link-secondary">Contact</a></li>
+        <li><a href="{% url 'home' %}" class="nav-link link-light px-2 link-secondary">Home</a></li>
+        <li><a href="#" class="nav-link link-light px-2 link-secondary">About</a></li>
+        <li><a href="#" class="nav-link link-light px-2 link-secondary">Contact</a></li>
     </ul>
       
     <div class="search-bar mt-sm-2 mr-2">
@@ -61,7 +61,7 @@
     {% if request.user.is_authenticated %}
         
             <div class="dropdown text-end">
-              <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle px-2" data-bs-toggle="dropdown" aria-expanded="false">{{request.user.username}}</a>
+              <a href="#" class="d-block link-light text-decoration-none dropdown-toggle px-2" data-bs-toggle="dropdown" aria-expanded="false">{{request.user.username}}</a>
               <ul class="dropdown-menu text-small">
                 <li><a class="dropdown-item" href="#">Update DP</a></li>
                 <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
