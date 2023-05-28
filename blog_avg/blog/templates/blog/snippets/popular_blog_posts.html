@@ -4,6 +4,9 @@
         max-height: 100%;
         flex: 1;
   }
+  .popular{
+    margin-left: 0px;
+  }
   .popular h2 {
     font-size: 2.5rem;
     font-weight: 700;
@@ -17,6 +20,7 @@
     min-height: 400px;
     max-height: 100%;
     border: none;
+    background-color: none;
   }
   
   .popular .card-img-top {
@@ -49,11 +53,12 @@
   text-align: center;
   border: none;
   margin-top: 5px;
+  background-color: rgba(172, 255, 47, 0);
 }
 
 .popular .card-footer-text {
     font-size: 1.0rem;
-    color: #a50000;
+    color: #6e0101;
   }
 </style>
 <!-- 
@@ -61,7 +66,7 @@
     {% include 'blog/snippets/blog_post_snippet.html' with blog_post=blog_post %}
 </div> -->
 <section class="popular">
-    <div class="container">
+    <div class="container p-0">
       <h2>Popular Posts</h2>
       <div class="row">
         {% for post in popular_posts %}
@@ -75,7 +80,7 @@
                 <h5 class="card-title">{{ post.title }}</h5> 
               </a>
             </div>
-            <div class="popular card-footer"> 
+            <div class="card-footer"> 
             <p class="card-footer-text"><small class="text-muted">{{ post.date_published|date:"F j, Y" }} by {{ post.author }}</small></p>
             <a href="{% url 'blog:detail' post.slug %}" class="btn btn-primary">Read More</a>
             </div>
