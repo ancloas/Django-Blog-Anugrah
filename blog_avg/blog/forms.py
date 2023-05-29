@@ -1,18 +1,21 @@
 from django import forms 
+from ckeditor.widgets import CKEditorWidget
 
 from blog.models import BlogPost
 
-class CreateBlogPostForm(forms.ModelForm):
 
+class CreateBlogPostForm(forms.ModelForm):
+    body = forms.CharField(widget=CKEditorWidget())
     class Meta:
         model   = BlogPost
         fields  = ['title', 'body', 'image']
 
 
 class EditBlogPostForm(forms.ModelForm):
-    class Meta: 
+    body = forms.CharField(widget=CKEditorWidget())
+    class Meta:
         model   = BlogPost
-        fields= ['title', 'body', 'image']
+        fields  = ['title', 'body', 'image']
 
     def save(self, commit=True): 
         blog_post=self.instance
