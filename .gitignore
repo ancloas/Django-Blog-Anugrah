@@ -1332,3 +1332,4 @@ blog_avg/static_cdn/ckeditor/galleriffic/js/jquery.history.js
 blog_avg/static_cdn/ckeditor/galleriffic/js/jquery.opacityrollover.js
 blog_avg/static_cdn/ckeditor/galleriffic/js/jush.js
 blog_avg/blog/migrations/0003_alter_blogpost_body.py
+.vscode/settings.json

@@ -18,7 +18,7 @@ def home_screen_view(request):
         context['query'] = str(query)
 
 
-    blog_posts = sorted(get_blog_queryset(query), key= attrgetter('date_updated'), reverse=True)
+    blog_posts = sorted(get_blog_queryset(query), key= attrgetter('date_published'), reverse=True)
 
     #get top most popular blogs
     popular_posts= get_popular_blogs()
@@ -38,3 +38,15 @@ def home_screen_view(request):
     context['popular_posts']=popular_posts
 
     return render(request, 'personal/home.html',context)
+
+
+
+def about_view(request):
+    context={}
+    return render(request, 'personal/about.html',context)
+
+
+
+def contact_view(request):
+    context={}
+    return render(request, 'personal/contact.html',context)

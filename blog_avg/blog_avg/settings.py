@@ -51,7 +51,10 @@ INSTALLED_APPS = [
 
     #additional apps 
     # Rich Text Editor
-    'ckeditor'
+    'ckeditor',
+
+    #Social sharing
+    'django_social_share',
 ]
 
 MIDDLEWARE = [

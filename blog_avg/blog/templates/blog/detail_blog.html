@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 
+
 <style type="text/css">
 
 	@media (max-width: 768px) { 
@@ -36,13 +37,31 @@
   line-height: 1.5;
   /* Add other styles as needed */
 }
+.blog-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .like-button, .comment-button, .share-button {
+    padding: 10px 15px;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .like-button:hover, .comment-button:hover, .share-button:hover {
+    background-color: #ccc;
+  }
 
 
 
 </style>
-{% load static %}
 <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
 <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 
 
 
@@ -64,11 +83,47 @@
                     </div>
                 <div class="card-footer text-muted">
                 Updated on {{blog_post.date_updated}} by {{blog_post.author}}
+
                 </div>
             </div>
         <!--End Blog Post-->
         </div>
     </div>
+    <!--Social sharing buttons-->
+    <div>
+        <h2>Share this post:</h2>
+        
+        <!-- Facebook button -->
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">Share on Facebook</a>
+    
+        <!-- Twitter button -->
+        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=Check out this post!" target="_blank">Share on Twitter</a>
+    
+        <!-- LinkedIn button {not working at the moment}-->
+        <a href="https://www.linkedin.com/sharing/share-offsite/?mini=true&url={{ request.build_absolute_uri }}&title=Check out this post!" target="_blank">Share on LinkedIn</a>
+    
+        <!-- Other social media buttons -->
+        <!-- Add similar anchor tags with appropriate URLs for other social media platforms -->
+    
+        <!-- Copy to clipboard button -->
+        <button class="copy-to-clipboard-button" data-clipboard-text="{{ request.build_absolute_uri }}">Copy to clipboard!</button>
+    
+        <!-- Add the copy script -->
+        <script>
+            var clipboard = new ClipboardJS('.copy-to-clipboard-button');
+        
+            clipboard.on('success', function(e) {
+                console.log('Copied to clipboard!');
+                // You can add additional code here, such as displaying a success message.
+            });
+        
+            clipboard.on('error', function(e) {
+                console.error('Error copying to clipboard:', e.action);
+                // You can add additional code here, such as displaying an error message.
+            });
+        </script>
+    </div>
+
 </div>
 		<!-- end blog feed -->
 
