@@ -206,8 +206,9 @@
     </div>
 
 
-
-<div id="comments_section" class="comments-section">
+    <div class="row">
+        <div class="container">
+            <div id="comments_section" class="col-lg-9 p-3 comments-section" style="display: none;">
     {% for comment in comments %}
       <div class="comment">
         <p class="comment-content">{{ comment.content }}</p>
@@ -227,7 +228,10 @@
       <textarea class="comment-input" name="comment_text"></textarea>
       <button class="comment-submit" type="submit">Submit Comment</button>
     </form>
-  </div>
+            </div>
+        </div>
+</div>
+</div>
 
 <script>
     const commentsSection = document.getElementById("comments_section");
