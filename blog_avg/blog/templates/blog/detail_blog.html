@@ -55,6 +55,73 @@
   #like_button:hover, #comment_button:hover, .share_button:hover {
     background-color: #323147;
   }
+/* Styling for comments section */
+.comments-section {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+
+/* Styling for individual comment */
+.comment {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+/* Styling for comment content */
+.comment-content {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+/* Styling for comment metadata */
+.comment-metadata {
+  font-size: 12px;
+  color: #888888;
+  margin-bottom: 0px;
+  margin-top: 1%;
+}
+
+/* Styling for comment author */
+.comment-author {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+/* Styling for comment timestamp */
+.comment-timestamp {
+  color: #999999;
+}
+
+/* Styling for comment form */
+.comment-form {
+  margin-top: 20px;
+}
+
+/* Styling for comment form input */
+.comment-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Styling for comment form submit button */
+.comment-submit {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #4267B2;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Styling for comment form submit button on hover */
+.comment-submit:hover {
+  background-color: #3b5998;
+}
 
 
 </style>
@@ -138,24 +205,29 @@
             </script>
     </div>
 
-    <div id="comments_section" style="display: none;">
-        <h2>Comments</h2>
-        {% for comment in comments %}
-            <div class="comment">
-                <p>{{ comment.content }}</p>
-                <p>By {{ comment.author }} on {{ comment.created_at }}</p>
-            </div>
-        {% empty %}
-            <p>No comments yet.</p>
-        {% endfor %}
-<!-- Comment submission form -->
-<form method="POST" action="{% url 'blog:comment_submit' blog_post.slug %}">
-    {% csrf_token %}
-    <label for="comment_text">Comment:</label>
-    <textarea id="comment_text" name="comment_text"></textarea>
-    
-    <button type="submit">Submit Comment</button>
-</form>
+
+
+<div id="comments_section" class="comments-section">
+    {% for comment in comments %}
+      <div class="comment">
+        <p class="comment-content">{{ comment.content }}</p>
+        <div>
+            <p class="comment-metadata">
+            <span class="comment-author">{{ comment.author }}</span>
+            <span class="comment-timestamp">{{ comment.created_at }}</span>
+            </p>
+        </div>
+      </div>
+    {% empty %}
+      <p>No comments yet.</p>
+    {% endfor %}
+  
+    <form class="comment-form" method="POST" action="{% url 'blog:comment_submit' blog_post.slug %}">
+      {% csrf_token %}
+      <textarea class="comment-input" name="comment_text"></textarea>
+      <button class="comment-submit" type="submit">Submit Comment</button>
+    </form>
+  </div>
 
 <script>
     const commentsSection = document.getElementById("comments_section");
