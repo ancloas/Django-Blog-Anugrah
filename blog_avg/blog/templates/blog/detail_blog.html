@@ -43,19 +43,18 @@
     margin-top: 10px;
   }
   
-  .like-button, .comment-button, .share-button {
+  #like_button, #comment_button, .share_button {
     padding: 10px 15px;
-    background-color: #e0e0e0;
+    background-color: rgba(255, 255, 254, 0);
     border: none;
     border-radius: 5px;
-    color: #333;
+    color: none;
     cursor: pointer;
   }
   
-  .like-button:hover, .comment-button:hover, .share-button:hover {
-    background-color: #ccc;
+  #like_button:hover, #comment_button:hover, .share_button:hover {
+    background-color: #323147;
   }
-
 
 
 </style>
@@ -102,11 +101,15 @@
 	</div>
 
     <div class="row">
-        <div class="col-lg-1 p-0"><img id="like_button" src="{% static 'like button.png' %}" alt="" style="max-width: 100%; max-height: 100%; height: 40px;"></div>
-        <div class="col-lg-1 p-0"><img id="comment_button" src="{% static 'comment button.png' %}" alt=""  style="max-width: 100%; max-height: 100%; height: 40px"></div>
+        <div class="col-lg-1 p-0"><button id="like_button"  title="Like"><img src="{% static 'like button.png' %}" alt="" style="max-width: 100%; max-height: 100%; height: 40px;"></button>
+            <span id="likes_count">{{likes_count }} Likes</span> 
+        </div>
+        
+        <div class="col-lg-1 p-0"><button id="comment_button"><img src="{% static 'comment button.png' %}" alt=""  style="max-width: 100%; max-height: 100%; height: 40px"></button></div>
+        
         <div class="col-lg-1 p-0">
             <div class="dropdown text-end">
-                <a href="#" class="d-block link-light text-decoration-none dropdown-toggle px-2" data-bs-toggle="dropdown" aria-expanded="false"><img id= "share_button" src="{% static 'share button.png' %}" alt="" style="max-width: 100%; max-height: 100%; height: 40px" ></a>
+                <a href="#" class="d-block link-light text-decoration-none dropdown-toggle px-2 share_button" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static 'share button.png' %}" alt="" style="max-width: 100%; max-height: 100%; height: 40px" ></a>
                 <ul class="dropdown-menu text-small">
                   <!-- Facebook button -->                    
                   <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">Share on Facebook</a></li>
@@ -135,13 +138,8 @@
             </script>
     </div>
 
-    <h2>Comments</h2>
-    <select id="comment_dropdown">
-        <option value="">Select an option</option>
-        <option value="show_comments">Show Comments</option>
-    </select>
-
-    <div id="comments_container" style="display: none;">
+    <div id="comments_section" style="display: none;">
+        <h2>Comments</h2>
         {% for comment in comments %}
             <div class="comment">
                 <p>{{ comment.content }}</p>
@@ -150,7 +148,6 @@
         {% empty %}
             <p>No comments yet.</p>
         {% endfor %}
-    </div>
 <!-- Comment submission form -->
 <form method="POST" action="{% url 'blog:comment_submit' blog_post.slug %}">
     {% csrf_token %}
@@ -161,13 +158,57 @@
 </form>
 
 <script>
-    document.getElementById('comment_dropdown').addEventListener('change', function() {
-        var commentsContainer = document.getElementById('comments_container');
-        if (this.value === 'show_comments') {
-            commentsContainer.style.display = 'block';
+    const commentsSection = document.getElementById("comments_section");
+    const showCommentsButton = document.getElementById("comment_button");
+    let commentsVisible = false;
+
+    showCommentsButton.addEventListener("click", function() {
+        if (commentsVisible) {
+            commentsSection.style.display = "none";
+            commentsVisible = false;
         } else {
-            commentsContainer.style.display = 'none';
+            commentsSection.style.display = "block";
+            commentsVisible = true;
         }
+    });
+
+    
+    const likeButton = document.getElementById("like_button");
+    const likesCount = document.getElementById("likes_count");
+    // Function to change the hover text
+    const changeHoverText = (text) => {
+        likeButton.setAttribute("title", text);
+    };
+
+    likeButton.addEventListener("click", () => {
+        // Call your AJAX request and update the hover text dynamically
+        fetch("{% url 'blog:like_post' blog_post.slug %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.liked) {
+                changeHoverText("Unlike");
+                if (likesCount==0)
+                    likes_count.innerHTML = "No likes";
+                else
+                    likes_count.innerHTML = data.likes_count + " likes";
+                
+            } else {
+                changeHoverText("Like");
+                if (likesCount==0)
+                    likes_count.innerHTML = "No likes";
+                else
+                    likes_count.innerHTML = data.likes_count + " likes";            
+                }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     });
 </script>
 

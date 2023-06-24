@@ -21,6 +21,8 @@ class BlogPost(models.Model):
     author              = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     slug                = models.SlugField(blank=True, unique=True)
     read_count          = models.PositiveIntegerField(default=0)
+    likes               = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_posts', blank=True)
+
 
     
     def __str__(self) -> str:

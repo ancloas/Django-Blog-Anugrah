@@ -3,7 +3,8 @@ from blog.views import(
     create_blog_view,
     detail_blog_view,
     edit_blog_view,
-    comment_submit
+    comment_submit,
+    like_post
 )
 
 app_name= 'blog'
@@ -13,4 +14,5 @@ urlpatterns =[
     path('<slug>/', detail_blog_view, name='detail'),
     path('<slug>/edit', edit_blog_view, name='edit'),
     path('<slug>/comment/submit/', comment_submit, name='comment_submit'),
+    path('<slug>/like/', like_post, name='like_post')
 ]
