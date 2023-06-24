@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.db.models import Count
 
 
-from blog.models import BlogPost
+from blog.models import BlogPost, Comment
 from blog.forms import CreateBlogPostForm, EditBlogPostForm
 from account.models import Account
 
@@ -36,6 +36,7 @@ def detail_blog_view(request, slug):
     context ={}
 
     blog_post=get_object_or_404(BlogPost, slug = slug)
+    comments = blog_post.comments.all()
     
 	
 	#increment the read count of the blog 
@@ -44,6 +45,12 @@ def detail_blog_view(request, slug):
     
 
     context['blog_post']=blog_post
+    context['comments']=comments
+    
+    
+	#list all comments for the blog
+	
+
     return render(request, 'blog/detail_blog.html', context)
 
 
@@ -96,3 +103,25 @@ def get_popular_blogs():
     popular_posts = BlogPost.objects.annotate(num_reads=Count('read_count')).order_by('-read_count')[:4]
     print([post.title for post in popular_posts])
     return popular_posts
+
+
+
+def comment_submit(request, slug):
+    if request.method == 'POST':
+        user = request.user
+        if not user.is_authenticated:return redirect('must_authenticate')
+        # Get the submitted comment data from the request
+        comment_text = request.POST.get('comment_text')
+
+        # Get the corresponding blog post
+        blog_post=get_object_or_404(BlogPost, slug = slug)
+
+        # Create a new comment object
+        comment = Comment(blog_post=blog_post, content=comment_text, author=user)
+
+        # Save the comment to the database
+        comment.save()
+
+    # Redirect the user back to the blog post
+    return redirect('blog:detail', slug=blog_post.slug)	
+    

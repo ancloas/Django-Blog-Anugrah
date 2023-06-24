@@ -89,41 +89,6 @@
         <!--End Blog Post-->
         </div>
     </div>
-    <!--Social sharing buttons-->
-    <div>
-        <h2>Share this post:</h2>
-        
-        <!-- Facebook button -->
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">Share on Facebook</a>
-    
-        <!-- Twitter button -->
-        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=Check out this post!" target="_blank">Share on Twitter</a>
-    
-        <!-- LinkedIn button {not working at the moment}-->
-        <a href="https://www.linkedin.com/sharing/share-offsite/?mini=true&url={{ request.build_absolute_uri }}&title=Check out this post!" target="_blank">Share on LinkedIn</a>
-    
-        <!-- Other social media buttons -->
-        <!-- Add similar anchor tags with appropriate URLs for other social media platforms -->
-    
-        <!-- Copy to clipboard button -->
-        <button class="copy-to-clipboard-button" data-clipboard-text="{{ request.build_absolute_uri }}">Copy to clipboard!</button>
-    
-        <!-- Add the copy script -->
-        <script>
-            var clipboard = new ClipboardJS('.copy-to-clipboard-button');
-        
-            clipboard.on('success', function(e) {
-                console.log('Copied to clipboard!');
-                // You can add additional code here, such as displaying a success message.
-            });
-        
-            clipboard.on('error', function(e) {
-                console.error('Error copying to clipboard:', e.action);
-                // You can add additional code here, such as displaying an error message.
-            });
-        </script>
-    </div>
-
 </div>
 		<!-- end blog feed -->
 
@@ -135,7 +100,80 @@
 		<!-- end Right 'create post' column  -->
 
 	</div>
+
+    <div class="row">
+        <div class="col-lg-1 p-0"><img id="like_button" src="{% static 'like button.png' %}" alt="" style="max-width: 100%; max-height: 100%; height: 40px;"></div>
+        <div class="col-lg-1 p-0"><img id="comment_button" src="{% static 'comment button.png' %}" alt=""  style="max-width: 100%; max-height: 100%; height: 40px"></div>
+        <div class="col-lg-1 p-0">
+            <div class="dropdown text-end">
+                <a href="#" class="d-block link-light text-decoration-none dropdown-toggle px-2" data-bs-toggle="dropdown" aria-expanded="false"><img id= "share_button" src="{% static 'share button.png' %}" alt="" style="max-width: 100%; max-height: 100%; height: 40px" ></a>
+                <ul class="dropdown-menu text-small">
+                  <!-- Facebook button -->                    
+                  <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">Share on Facebook</a></li>
+                  <!-- Twitter button -->
+                  <li><a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=Check out this post!" target="_blank">Share on Twitter</a></li>
+                  <!-- LinkedIn button {not working at the moment}-->
+                  <li><a href="https://www.linkedin.com/sharing/share-offsite/?mini=true&url={{ request.build_absolute_uri }}&title=Check out this post!" target="_blank">Share on LinkedIn</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <!-- Copy to clipboard button -->
+                  <li> <button class="copy-to-clipboard-button" data-clipboard-text="{{ request.build_absolute_uri }}">Copy to clipboard!</button></li>
+                </ul>
+              </div>
+            </div>
+            <script>
+                var clipboard = new ClipboardJS('.copy-to-clipboard-button');
+            
+                clipboard.on('success', function(e) {
+                    console.log('Copied to clipboard!');
+                    // You can add additional code here, such as displaying a success message.
+                });
+            
+                clipboard.on('error', function(e) {
+                    console.error('Error copying to clipboard:', e.action);
+                    // You can add additional code here, such as displaying an error message.
+                });
+            </script>
+    </div>
+
+    <h2>Comments</h2>
+    <select id="comment_dropdown">
+        <option value="">Select an option</option>
+        <option value="show_comments">Show Comments</option>
+    </select>
+
+    <div id="comments_container" style="display: none;">
+        {% for comment in comments %}
+            <div class="comment">
+                <p>{{ comment.content }}</p>
+                <p>By {{ comment.author }} on {{ comment.created_at }}</p>
+            </div>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+<!-- Comment submission form -->
+<form method="POST" action="{% url 'blog:comment_submit' blog_post.slug %}">
+    {% csrf_token %}
+    <label for="comment_text">Comment:</label>
+    <textarea id="comment_text" name="comment_text"></textarea>
+    
+    <button type="submit">Submit Comment</button>
+</form>
+
+<script>
+    document.getElementById('comment_dropdown').addEventListener('change', function() {
+        var commentsContainer = document.getElementById('comments_container');
+        if (this.value === 'show_comments') {
+            commentsContainer.style.display = 'block';
+        } else {
+            commentsContainer.style.display = 'none';
+        }
+    });
+</script>
+
+    
 </div>
+ 
 {% endblock content %}
 
 

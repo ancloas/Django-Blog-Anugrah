@@ -20,7 +20,7 @@ class BlogPost(models.Model):
     date_updated        = models.DateTimeField(auto_now=True, verbose_name="date updated")        
     author              = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     slug                = models.SlugField(blank=True, unique=True)
-    read_count = models.PositiveIntegerField(default=0)
+    read_count          = models.PositiveIntegerField(default=0)
 
     
     def __str__(self) -> str:
@@ -39,3 +39,14 @@ def pre_save_blogpost_receiver(sender, instance, *args, **kwargs):
         instance.slug=slugify(instance.author.username+ "_" + instance.title)
 
 pre_save.connect(pre_save_blogpost_receiver, sender=BlogPost)
+
+
+class Comment(models.Model):
+    # Comment fields
+    content             = models.TextField()
+    author              = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at          = models.DateTimeField(auto_now_add=True)
+    blog_post           = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='comments')
+
+    def __str__(self):
+        return f'Comment by {self.author} on {self.blog_post}'

@@ -1,7 +1,7 @@
 from django import forms 
 from ckeditor.widgets import CKEditorWidget
 
-from blog.models import BlogPost
+from blog.models import BlogPost, Comment
 
 
 class CreateBlogPostForm(forms.ModelForm):
@@ -27,3 +27,10 @@ class EditBlogPostForm(forms.ModelForm):
         if commit:
             blog_post.save()
         return blog_post
+
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
