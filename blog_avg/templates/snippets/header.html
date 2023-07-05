@@ -21,7 +21,7 @@
 }
 
 .header_color{
-  background-color: #0f1729;
+  background-color: #06052e;
   color:#fff;
 }
 
@@ -34,7 +34,7 @@
 </style>
 <div>
 <div class="container">
-  <div class="row">
+  <div class="row" style="background-color: rgba(189, 197, 230, 0.507);">
   <div class="left-column col-lg-2 p-0"> 
     <a href="{% url 'home' %}" >    
       <img src="{% static 'bubble-of-thoughts-high-resolution-logo-black-on-transparent-background.svg' %}" alt="Bubble of Thoughts" width="100%" style="max-height: 200px; max-width: 200px;"> 
@@ -67,7 +67,9 @@
               <ul class="dropdown-menu text-small">
                 <li><a class="dropdown-item" href="#">Update DP</a></li>
                 <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                {% if request.user.is_writer %}
                 <li><a class="dropdown-item" href="{% url 'blog:create' %}">Write a new Blog Post</a></li>
+                {% endif %}
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
               </ul>

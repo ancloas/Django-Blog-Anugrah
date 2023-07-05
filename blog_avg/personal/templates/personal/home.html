@@ -37,23 +37,20 @@
 		font-size: 17px;
 	}
 </style>
-<div class="container p-0">
-	<div class="row">
-		<!-- blog feed -->
-		<div class="col-lg-9 p-10">
-		{% include 'personal/snippets/body_snippet.html'%}
-		</div>
-		<!-- end blog feed -->
-
-
-		<!-- Right 'create post' column  -->
-		<div class="col-lg-3 d-lg-flex d-none flex-column">
-		{% include 'personal/snippets/right_side_snippet.html'%}
-		</div>
-		<!-- end Right 'create post' column  -->
-
+<div class="container p-0" style="display: flex;">
+	<!-- blog feed -->
+	<div class="col-lg-9 p-10" >
+	  {% include 'personal/snippets/body_snippet.html'%}
 	</div>
-</div>
+	<!-- end blog feed -->
+  
+	<!-- Right 'create post' column  -->
+	<div class="col-lg-3 d-lg-flex d-none flex-column">
+	  {% include 'personal/snippets/right_side_snippet.html'%}
+	</div>
+	<!-- end Right 'create post' column  -->
+  </div>
+  
 
 {% endblock content %}
 

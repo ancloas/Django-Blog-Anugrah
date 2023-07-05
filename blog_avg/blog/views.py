@@ -16,6 +16,9 @@ def create_blog_view(request):
     user = request.user
     if not user.is_authenticated:
         return redirect('must_authenticate')
+    if not user.is_writer:
+        dict={"rwsponse": "User must be a writer"}
+        return JsonResponse(data=dict)
     
     form = CreateBlogPostForm(request.POST or None, request.FILES or None, )
     if form.is_valid():
