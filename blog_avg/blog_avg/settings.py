@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 import sys
-import dj_database_url
+# import dj_database_url
 from dotenv import load_dotenv, find_dotenv
 
 
