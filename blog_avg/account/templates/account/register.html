@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% load static %}
 
 <style>
 
@@ -37,7 +37,7 @@
 </style>
     
     <form class="form-signin m-auto" method="post">{% csrf_token %}
-        <img class="mb-4" src="C:\Repository\Django Blog repo\Django-Blog-Anugrah\blog_avg\images\luffy.jpg" alt="" width="72" height="57">
+        <img class="mb-4" src="{% static 'Anugrah.jpg' %}" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
     
         <div class="form-floating">
@@ -80,6 +80,7 @@
         <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
         <p class="mt-5 mb-3 text-muted">© 2017–2022</p>
       </form>
-    {% endblock content%}
+
+{% endblock content%}
     
 
