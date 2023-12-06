@@ -38,6 +38,10 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split("
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+
+
+print(ALLOWED_HOSTS)
     
 if DEBUG: 
   EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'   #During development only
@@ -175,4 +179,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CSRF_COOKIE_SECURE = True  # For secure (HTTPS) connections
-CSRF_COOKIE_SAMESITE = 'Lax'  # Adjust based on your requirements
+CSRF_COOKIE_SAMESITE = 'None'  # Adjust based on your requirements
