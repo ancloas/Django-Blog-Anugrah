@@ -180,5 +180,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_COOKIE_SECURE = True  # For secure (HTTPS) connections
 CSRF_COOKIE_SAMESITE = 'None'  # Adjust based on your requirements
-CSRF_TRUSTED_ORIGINS = ['https://bubbleofthoughts.onrender.com','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS").split(",")
+
 
