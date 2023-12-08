@@ -16,6 +16,7 @@ from django.core.management.utils import get_random_secret_key
 import sys
 # import dj_database_url
 from dotenv import load_dotenv, find_dotenv
+import dj_database_url
 
 
 
@@ -82,7 +83,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    ]
 
 ROOT_URLCONF = 'blog_avg.urls'
 
@@ -110,25 +112,26 @@ WSGI_APPLICATION = 'blog_avg.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# if DEVELOPMENT_MODE is True:
-#     DATABASES = {
+if DEVELOPMENT_MODE is True:
+     DATABASES = {
+         "default": {
+             "ENGINE": "django.db.backends.sqlite3",
+             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+         }
+     }
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+     if os.getenv("DATABASE_URL", None) is None:
+         raise Exception("DATABASE_URL environment variable not defined")
+     DATABASES = {
+         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+     }
+
+# DATABASES = {
 #         "default": {
 #             "ENGINE": "django.db.backends.sqlite3",
 #             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
 #         }
 #     }
-# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-#     if os.getenv("DATABASE_URL", None) is None:
-#         raise Exception("DATABASE_URL environment variable not defined")
-#     DATABASES = {
-#         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
-#     }
-DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
-    }
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -171,6 +174,14 @@ STATIC_URL = '/static/'
 MEDIA_URL= '/media/'
 STATIC_ROOT=os.path.join(BASE_DIR, 'static_cdn')
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media_cdn')
+
+# Following settings only make sense on production and may break development environments.
+if not DEBUG:    # Tell Django to copy statics to the `staticfiles` directory
+    # in your application directory on Render.
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Turn on WhiteNoise storage backend that takes care of compressing static files
+    # and creating unique names for each version so they can safely be cached forever.
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
