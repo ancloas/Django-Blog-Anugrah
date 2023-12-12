@@ -3,6 +3,9 @@
 # Activate the virtual environment (if you are using one)
 # source /path/to/your/virtualenv/bin/activate
 
+#install requirements.txt
+pip install -r requirements.txt
+
 # collect static
 python blog_avg/manage.py collectstatic --no-input
 
@@ -17,6 +20,3 @@ if [[ $CREATE_SUPERUSER ]];
 then
   python blog_avg/manage.py createsuperuser --no-input
 fi
-
-# Run runserver
-python blog_avg/manage.py runserver 0.0.0.0:8000
