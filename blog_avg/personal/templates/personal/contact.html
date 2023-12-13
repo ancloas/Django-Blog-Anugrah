@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- In your base.html or a new CSS file -->
+    <style>
+        .contact-info {
+            padding: 20px;
+            color: white;
+            background-color: #070846; /* Bootstrap default background color */
+        }
+
+        .contact-form {
+            padding: 20px;
+        }
+
+        .quote-section {
+            background-color: #9ac1e9;
+            padding: 10px;
+            text-align: center;
+            border-radius: 20px;
+        }
+
+        .profile-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-top: 20px;
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <!-- Left Column - Contact Information -->
+            <div class="col-md-6 contact-info">
+                <div class="container">
+                    <!-- Quote Section -->
+                    <div class="quote-section">
+                        "It brightens my day whenever I hear from you. Your praise makes me blush, your criticism prompts introspection, your feedback brings me back to the drawing board, your thoughts make me wonder, and your greetings always bring a smile to my face. So, go ahead, and drop me a text already."
+                    </div>
+
+                    <!-- Circular Image and Name Section -->
+                    <div class="text-center">
+                        <img src="{% static 'Anugrah.jpg' %}" alt="Anugrah" class="profile-image">
+                        <p class="mt-3"><i>Anugrah Gupta</i></p>
+                    </div>
+                </div>
+
+                <p>Feel free to reach out using the following contact details:</p>
+                <p><b>Email: </b>bubbleofthoughts@outlook.com</p>
+                <p><b>Follow: </b><a href="https://www.instagram.com/bubbleofthoughts_official/">bubbleofthoughts_official</a></p>
+                <p><b>Follow: </b><a href="https://twitter.com/AnugrahGup430">Anugrah Gupta</a></p>
+            </div>
+
+            <!-- Right Column - Contact Form -->
+            <div class="col-md-6 contact-form">
+                <h1>Let's Connect</h1>
+                <form id="contactForm" method="post"  action="{% url 'send_email' %}">{% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+                {% if mail_status %}
+                {% if mail_status == 'success' %}
+                    <p style="color: green;">{{ mail_status }}</p>
+                {% else %}
+                    <p style="color: red;">{{ mail_status }}</p>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (required for Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Email.js script -->
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+{% endblock content %}

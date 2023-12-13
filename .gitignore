@@ -134,3 +134,4 @@ virt/*
 
 .venv/*
 blog_avg/staticfiles/*
+.vscode/*

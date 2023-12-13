@@ -19,7 +19,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
-from personal.views import (home_screen_view,about_view, contact_view)
+from personal.views import (home_screen_view,about_view, contact_view, send_email)
 from account.views import (registration_view, 
 logout_view, 
 login_view,
@@ -32,6 +32,7 @@ urlpatterns = [
     path('', home_screen_view, name='home'),
     path('about/', about_view, name='about'),
     path('contact/', contact_view, name='contact'),
+    path('send_email/', send_email, name='send_email'),
 
     path('admin/', admin.site.urls),
     path('blog/',include('blog.urls', 'blog')),

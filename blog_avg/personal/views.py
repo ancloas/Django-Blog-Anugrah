@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from operator import attrgetter
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import JsonResponse
+import requests
+from dotenv import load_dotenv
+import os
 
 from blog.views import get_blog_queryset, get_popular_blogs
-
+from .mail_module import send_mail
 
 # Create your views here.
 BLOG_POSTS_PER_PAGE=10
@@ -49,4 +53,36 @@ def about_view(request):
 
 def contact_view(request):
     context={}
+    
     return render(request, 'personal/contact.html',context)
+
+
+def send_email(request):
+    context={}
+
+    if request.method == 'POST':
+        load_dotenv()
+
+        # Get form data
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        # Prepare data for Email.js template
+        template_params = {
+            'from_name': name,
+            'reply_to': email,
+            'message': message,
+        }
+
+        result= send_mail(subject= 'Message from reader', msg_content=template_params['message'], from_name=template_params['from_name'], reply_to=template_params['reply_to'])
+        # Make a request to Email.js
+        
+        # Check if the email was sent successfully
+        if result:
+            context['mail_status']='success'
+        else:
+            context['mail_status']='something went wrong, please check mail address again.'
+    
+        return render(request, 'personal/contact.html',context)
+

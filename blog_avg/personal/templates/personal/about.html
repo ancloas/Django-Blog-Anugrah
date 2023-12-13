@@ -1,30 +1,102 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!-- In your base.html or a new CSS file -->
+<style>
+  body {
+    font-family: "Arial", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+  }
 
-{% block content %}
+  h1 {
+    color: #0d274e;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-top: 20px;
+  }
+
+  p {
+    margin-top: 20px;
+  }
+
+  h4 {
+    color: #0d3775;
+  }
+  b {
+    color: rgb(1, 10, 53);
+  }
+  i {
+    color: #617c00;
+  }
+</style>
 <div class="container">
-<h1>About</h1>
-<img src="{% static 'Anugrah.jpg' %}" style="max-width: 500px; max-height: 500px;"> </img>
+  <h1>About</h1>
+  <div class="row">
+    <div class="col-lg-7">
+      <p>
+        Hi, I'm Anugrah Gupta, just a curious soul sailing through the digital
+        waves of the internet. 🌊✨
+      </p>
 
-<p>Hi I am Anugrah Gupta. A Computer Science greaduate looking to do a lot of things. But, for as long as I can remember, starting a blog has been my top most priority. So, here it is, my home on the internet. <br>
-    It's a start. I am not a writer, not yet anyway. <br>
-    <b>Why does this blog exist?</b><br>
-    <ul>
-        <li> I want to share what I learn</li>
-        <li>A place where I belong, a community of my own</li>
-        <li>I want to explore the hidden secrets of our world. That can make it all better.</li>
-        <li>Solve the big problems together</li>
-        <li>It's fun to write. It's powerful to create from your imagination</li>
-        <li>I have a lot in my mind and this is the place where i share what i learnt, did, or going to do.</li>
-    </ul>
-    <b> What I write about?</b>
-    <ul>
-        <li>Everyday life</li>
-        <li>Mental Health</li>
-        <li>Common problems we all face and my take on them</li>
-        <li>Out of context, things that fascinates me AI, universe, physics, atoms, brain science, chess, sports, etc...</li>
-    </ul>
-    <i>tune in and wish me luck.</i>
-</p>
+      <p>
+        I'm new to the field of writing, but consider this place my playground, where I
+        simply plan to enjoy, embracing my thoughts and ideas as I go
+      </p>
+
+      <h4>Why does this blog exist?</h4>
+      <ul>
+        <li>
+          I want to share what I learn - no fluff, just practical insights.
+        </li>
+        <li>Create a community where we can figure things out together.</li>
+        <li>
+          Explore the mysteries of our world without getting too philosophical.
+        </li>
+        <li>Solve big problems together (or at least attempt to).</li>
+        <li>
+          Experience the joy of creating from imagination - no sugarcoating,
+          just raw creativity.
+        </li>
+        <li>
+          This is where I spill my thoughts, learnings, and plans. No
+          formalities.
+        </li>
+      </ul>
+
+      <h4>What I write about?</h4>
+      <ul>
+        <li>Everyday life - the good, the bad, and the mundane.</li>
+        <li>Mental Health - because let's be real, it matters.</li>
+        <li>Common problems we all face and my unfiltered take on them.</li>
+        <li>
+          Out-of-context topics that catch my interest: AI, universe, physics,
+          atoms, brain science, chess, sports, etc.
+        </li>
+      </ul>
+
+       <h4>What am I promising?</h4>
+      <ul>
+        <li><b>Authenticity: </b>Don't want me to repeat what you have already read? I am not planning to, it's super boring.</li>
+        <li><b>Continuous learning: </b>Expect fresh ideas and thoughts because I'm constantly on the hunt for answers, ready to share my discoveries with you.</li>
+        <li><b>Engagement: </b>This is not a blog rather a bubble of all of our thoughts</li>
+        <li><b>Fun: </b>Expect a sprinkle of humor and a light-hearted approach towards the serious stuff.</li>
+        <li><b>Stick-Figures: </b>Because they are awesome and I like to draw.</li>
+        <li><b>Uncertainity: </b>At this point, the direction of this blog is uncertain, so brace yourself for plenty of changes in every aspect.</li>
+        <li><b>Imperfection: </b>Mistakes here, there,  everywhere.</li>
+      </ul>
+
+      <p><i>Stick around, and let's see where this takes us.</i></p>
+    </div>
+    <div class="imagecontainer col-lg-5">
+      <img src="{% static 'Anugrah.jpg' %}" alt="Anugrah" />
+    </div>
+  </div>
 </div>
 {% endblock content %}
