@@ -133,3 +133,4 @@ blog_avg/blog/migrations/0003_alter_blogpost_body.py
 virt/*
 
 .venv/*
+blog_avg/staticfiles/*

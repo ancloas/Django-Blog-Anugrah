@@ -41,6 +41,15 @@ if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+AWS_S3_SIGNATURE_VERSION = os.getenv('AWS_S3_SIGNATURE_VERSION')
+AWS_S3_FILE_OVERWRITE = os.getenv('AWS_S3_FILE_OVERWRITE') == 'True'
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = os.getenv('AWS_S3_VERIFY') == 'True'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 print(ALLOWED_HOSTS)
     
@@ -172,9 +181,7 @@ STATICFILES_DIRS=[
   os.path.join(BASE_DIR, 'media')
 ]
 STATIC_URL = '/static/'
-MEDIA_URL= '/media/'
 STATIC_ROOT=os.path.join(BASE_DIR, 'static_cdn')
-MEDIA_ROOT=os.path.join(BASE_DIR, 'media_cdn')
 
 # Following settings only make sense on production and may break development environments.
 if not DEBUG:    # Tell Django to copy statics to the `staticfiles` directory
@@ -186,6 +193,23 @@ if not DEBUG:    # Tell Django to copy statics to the `staticfiles` directory
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+
+
+# Add these settings for serving static and media files from S3
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',  # Cache files for one day
+}
+
+# Media files (user-uploaded content)
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+MEDIAFILES_LOCATION='media'
+DEFAULT_FILE_STORAGE = 'blog_avg.storage_backends.MediaStorage'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
