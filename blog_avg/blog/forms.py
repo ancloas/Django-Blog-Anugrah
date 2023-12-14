@@ -1,7 +1,7 @@
 from django import forms 
 from ckeditor.widgets import CKEditorWidget
 
-from blog.models import BlogPost, Comment
+from blog.models import BlogPost, Comment, Subscriber
 
 
 class CreateBlogPostForm(forms.ModelForm):
@@ -34,3 +34,13 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['content']
+
+
+class SubscriberForm(forms.ModelForm):
+    class Meta:
+        model = Subscriber
+        fields = ['email', 'name']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'name-input', 'placeholder': 'Enter your name'}),
+            'email': forms.EmailInput(attrs={'class': 'email-input', 'placeholder': 'Enter your email'}),
+        }

@@ -1,8 +1,8 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <!-- In your base.html or a new CSS file -->
+
 <style>
   body {
-    font-family: "Arial", sans-serif;
     font-size: 16px;
     line-height: 1.6;
     color: #555;
@@ -12,6 +12,7 @@
   }
 
   h1 {
+    margin-top: 20px;
     color: #0d274e;
   }
 
@@ -19,7 +20,6 @@
     width: 100%;
     height: auto;
     border-radius: 4px;
-    margin-top: 20px;
   }
 
   p {
@@ -27,7 +27,7 @@
   }
 
   h4 {
-    color: #0d3775;
+    color:  #0d274e;
   }
   b {
     color: rgb(1, 10, 53);
@@ -35,10 +35,20 @@
   i {
     color: #617c00;
   }
+  .about-container{
+    color: black;
+    background-color: rgb(235, 202, 231);
+  }
+  .heading-sec{
+    width:100%;
+    margin:0px;
+    }
 </style>
 <div class="container">
-  <h1>About</h1>
-  <div class="row">
+  <div class="heading-sec">
+    <h1>About</h1>
+  </div>
+  <div class="row about-container">
     <div class="col-lg-7">
       <p>
         Hi, I'm Anugrah Gupta, just a curious soul sailing through the digital
@@ -94,7 +104,7 @@
 
       <p><i>Stick around, and let's see where this takes us.</i></p>
     </div>
-    <div class="imagecontainer col-lg-5">
+    <div class="imagecontainer col-lg-5 p-0">
       <img src="{% static 'Anugrah.jpg' %}" alt="Anugrah" />
     </div>
   </div>

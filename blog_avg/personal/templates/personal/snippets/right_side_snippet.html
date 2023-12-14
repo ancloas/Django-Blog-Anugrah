@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <style>
 .sidebar {
   position: sticky;
@@ -21,11 +20,12 @@
 }
 
 .email-subscriber input[type="email"],
+.email-subscriber input[type="text"],
 .email-subscriber button {
   padding: 10px;
   font-size: 16px;
-  border: none;
   border-radius: 5px;
+  border: none;
 }
 
 .email-subscriber input[type="email"] {
@@ -70,27 +70,60 @@
   border-radius: 50%;
   margin-bottom: 85px;
 }
-
+.email-input{
+  background-color: rgb(193, 232, 255);
+  border-style: none;
+}
+.name-input{
+  background-color: rgb(193, 232, 255);
+  border-style: none;
+  margin-bottom:2px;
+}
 </style>
 
 <div class="sidebar">
-    <!-- Email Subscriber field -->
-    <div class="email-subscriber">
+  <!-- Email Subscriber field -->
+  <div class="email-subscriber">
       <h3>Subscribe to our newsletter</h3>
-      <form action="#">
-        <input type="email" placeholder="Enter your email">
-        <button type="submit">Subscribe</button>
+      <form id="subscribe-form" action="{% url 'blog:subscribe' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+              {{ subscriber_form.name }}
+              {{ subscriber_form.email }}
+          </div>
+          <button type="button" id="subscribe-button">Subscribe</button>
       </form>
-    </div>
-    
-    <!-- Social media follow icons -->
-    <div class="social-media">
+  </div>
+
+  <!-- Social media follow icons -->
+  <div class="social-media">
       <h3>Follow us</h3>
       <ul>
-        <li><a href="https://twitter.com/AnugrahGup430" target="_blank"><i class="fab fa-twitter"></i></a></li>
-        <!-- <li><a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a></li> -->
-        <li><a href="https://www.instagram.com/bubbleofthoughts_official/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+          <li><a href="https://twitter.com/AnugrahGup430" target="_blank"><i class="fab fa-twitter"></i></a></li>
+          <li><a href="https://www.instagram.com/bubbleofthoughts_official/" target="_blank"><i
+                      class="fab fa-instagram"></i></a></li>
       </ul>
-    </div>
   </div>
-  
+</div>
+
+<script>$(document).ready(function () {
+  $('#subscribe-button').click(function () {
+      $.ajax({
+          type: 'POST',
+          url: '{% url "blog:subscribe" %}',
+          data: $('#subscribe-form').serialize(),
+          success: function (response) {
+            console.log($('#subscribe-form').serialize())
+              if (response.success) {
+                  console.log(response.message);
+                  alert(response.message);
+              } else {
+                  alert(response.message);
+                  // Output the errors to the console for debugging
+                  console.log(response.errors);
+              }
+          }
+      });
+  });
+});
+</script>

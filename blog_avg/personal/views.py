@@ -6,14 +6,39 @@ import requests
 from dotenv import load_dotenv
 import os
 
-from blog.views import get_blog_queryset, get_popular_blogs
+from blog.views import get_blog_queryset, get_popular_blogs, subscribe
 from .mail_module import send_mail
+from blog.forms import SubscriberForm
 
 # Create your views here.
 BLOG_POSTS_PER_PAGE=10
 
-def home_screen_view(request):
-    context={}
+BODY_MESSAGE_FROM_USER = """  
+        <div style="max-width: 600px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <p>Hello Bubble Of Thoughts,</p>
+            <p>You got a new message from {0}:</p>
+            <div style="border-left: 4px solid #007bff; padding: 12px; font-style: italic; margin-top: 20px;">
+                <p style="margin: 0; padding: 0;">
+                    {1}
+                </p>
+            </div>
+            <p style="margin-top: 20px; font-style: italic; color: #555;">Best wishes,<br>{0}</p>
+        </div>
+    """
+CONFIRM_MESSAGE_TEMPLATE_FROM_SERVER = """
+<div style="max-width: 600px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <p>Hello {0},</p>
+            <p>Your following message has been delivered to us, and we will soon respond.</p>
+            <div style="border-left: 4px solid #007bff; padding: 12px; font-style: italic; margin-top: 20px;">
+                <p style="margin: 0; padding: 0;">
+                    {1}
+                </p>
+            </div>
+            <p style="margin-top: 20px; font-style: italic; color: #555;">Best wishes,<br>Anugrah Gupta</p>
+        </div>
+"""
+
+def home_screen_view(request, context={}):
 
     query =""
     
@@ -40,6 +65,7 @@ def home_screen_view(request):
         
     context['blog_posts']=blog_posts
     context['popular_posts']=popular_posts
+    context['subscriber_form']=SubscriberForm()
 
     return render(request, 'personal/home.html',context)
 
@@ -74,10 +100,14 @@ def send_email(request):
             'reply_to': email,
             'message': message,
         }
+        msg_body_from_user= BODY_MESSAGE_FROM_USER.format(template_params['from_name'], template_params['message'])
+        msg_body_from_server= CONFIRM_MESSAGE_TEMPLATE_FROM_SERVER.format(template_params['from_name'], template_params['message'])
 
-        result= send_mail(subject= 'Message from reader', msg_content=template_params['message'], from_name=template_params['from_name'], reply_to=template_params['reply_to'])
-        # Make a request to Email.js
-        
+        # mail from user to my email
+        result= send_mail(subject= 'Message from reader', msg_content=msg_body_from_user, from_name=template_params['from_name'], reply_to=template_params['reply_to'])
+        # Send a Receipt mail to user
+        result= send_mail(subject= 'We got your message', msg_content=msg_body_from_server, receiver=template_params['reply_to'], reply_to='bubbleofthought@outlook.com')
+
         # Check if the email was sent successfully
         if result:
             context['mail_status']='success'

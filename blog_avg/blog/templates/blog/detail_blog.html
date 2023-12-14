@@ -27,7 +27,8 @@
   font-size: 30px;
   font-weight: bold;
   color: #434745;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  margin-top:30px;
   text-align: center;
   /* Add other styles as needed */
     }
@@ -139,7 +140,7 @@
             <div class="row">
             <!--Blog Post-->
                 <div class="card m-auto">
-                    <h2 class="blog-post-title">{{blog_post.title}}</h2>
+                    <h1 class="blog-post-title">{{blog_post.title}}</h1>
                     <img class= "card-img-top" src="{{blog_post.image.url}}">
                     <div class="blog-post-body">
                        {{blog_post.body|safe}}

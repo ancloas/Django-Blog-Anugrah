@@ -3,14 +3,32 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.db.models import Count
 from django.http import JsonResponse
+import logging
 
 
-from blog.models import BlogPost, Comment
-from blog.forms import CreateBlogPostForm, EditBlogPostForm
+from blog.models import BlogPost, Comment, Subscriber
+from blog.forms import CreateBlogPostForm, EditBlogPostForm, SubscriberForm
 from account.models import Account
+from django.contrib import messages
+from personal.mail_module import send_mail
+ 
 
+logger = logging.getLogger(__name__)
 
-
+WELCOME_EMAIL_TEMPLATE = """  
+    <div style="max-width: 600px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <p>Hello {0},</p>
+        <p>Welcome to Bubble Of Thoughts! We are thrilled to have you as a subscriber to our newsletter.</p>
+        <p>Stay tuned for exciting updates, interesting articles, and much more. Feel free to reach out to us anytime.</p>
+        <div style="border-left: 4px solid #007bff; padding: 12px; font-style: italic; margin-top: 20px;">
+            <p style="margin: 0; padding: 0;">
+                If you have any questions or suggestions, don't hesitate to contact us.
+            </p>
+        </div>
+        <p style="margin-top: 20px; font-style: italic; color: #555;">Best wishes,<br>Anugrah Gupta</p>
+    </div>
+"""
+WELCOME_EMAIL_SUBJECT = 'Welcome to Bubble of Thoughts'
 def create_blog_view(request):
     context= {}
     user = request.user
@@ -54,7 +72,7 @@ def detail_blog_view(request, slug):
     context['comments']=comments
     context['likes_count']= likes_count
     context['liked_users']= liked_users
-    
+    context['subscriber_form']=SubscriberForm()
     
 	#list all comments for the blog
 	
@@ -155,3 +173,40 @@ def like_post(request, slug):
 
 
         return JsonResponse({'liked': liked, 'likes_count': post.likes.count()})
+   
+
+def subscribe(request):
+    response_data = {'success': False, 'message': 'Invalid request'}
+
+    if request.method == 'POST':
+        form = SubscriberForm(request.POST)
+        is_form_valid = True
+
+        if form.is_valid():
+            try:
+                email = form.cleaned_data['email']
+                name = form.cleaned_data.get('name', '')  # Handle the case where name is not provided
+                is_form_valid = True
+                form.save()
+                response_data['success'] = True
+                response_data['message'] = 'You have successfully subscribed!'
+                # Use logging instead of print for structured logging
+                logger.info(f'Successful subscription for {email}')
+                # Ensure that your email template has a placeholder for the name
+                first_name= name.split(' ')[0]
+                msg = WELCOME_EMAIL_TEMPLATE.format(first_name)
+                print(msg)
+                send_mail(subject=WELCOME_EMAIL_SUBJECT, msg_content=msg, receiver=email)
+            except:
+                response_data['success'] = False
+                response_data['message'] = 'Something went wrong'
+        else:
+            error_lists=[]
+            for field, errors in form.errors.items():
+                error_lists.extend(errors)
+            response_data['errors']=error_lists
+            response_data['message'] = 'Invalid Input'
+
+
+    logger.debug(f'Called subscribe: {response_data}, is_form_valid={is_form_valid}')
+    return JsonResponse(response_data)
