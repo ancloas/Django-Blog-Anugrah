@@ -24,11 +24,14 @@
   border-top-right-radius: 0;
 }
 
+.pink-button{
+  background-color: rgb(233, 62, 62);
+}
 
 </style>
 
 <form class="form-signin m-auto" method="post">{% csrf_token %}
-    <img class="mb-4" src="C:\Repository\Django Blog repo\Django-Blog-Anugrah\blog_avg\images\luffy.jpg" alt="" width="72" height="57">
+    <!-- <img class="mb-4" src="C:\Repository\Django Blog repo\Django-Blog-Anugrah\blog_avg\images\luffy.jpg" alt="" width="72" height="57"> -->
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
     <div class="form-floating">
@@ -53,7 +56,7 @@
     </div>
     {% endif %}
 
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <button class="w-100 btn btn-lg btn-primary pink-button" type="submit">Sign in</button>
     <p class="mt-5 mb-3 text-muted">© 2017–2022</p>
   </form>
   

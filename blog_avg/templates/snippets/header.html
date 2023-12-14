@@ -28,9 +28,18 @@
 .search-bar{
  max-width: 500px;
  width: 100% 
-}
+} 
+/* Increase specificity for primary buttons */
+    a[href*="{% url 'register' %}"] .btn-primary {
+        background-color:rgb(233, 62, 62); /* Pink color */
+        border-color:   rgb(233, 62, 62);
+    }
 
-
+    /* Increase specificity for outline-primary buttons */
+    a[href*="{% url 'login' %}"] .btn-outline-primary {
+        color: rgb(233, 62, 62);/* Pink color */
+        border-color:rgb(233, 62, 62);
+    }
 </style>
 <div>
 <div class="container">
