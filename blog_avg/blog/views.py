@@ -11,7 +11,8 @@ from blog.forms import CreateBlogPostForm, EditBlogPostForm, SubscriberForm
 from account.models import Account
 from django.contrib import messages
 from personal.mail_module import send_mail
- 
+from django.http import JsonResponse
+from account.models import Account
 
 logger = logging.getLogger(__name__)
 
@@ -46,8 +47,11 @@ def create_blog_view(request):
         obj.save()  
         form =  CreateBlogPostForm()
         context['is_saved']=True
-        
-
+        if obj.status=='draft':
+             context['success_message']='Blog successfully saved as draft'
+        elif obj.status=='in_review':
+             context['success_message']='the blog is sent for approval to publish'
+    
     context['form'] =   form
 
     return render(request, 'blog/create_blog.html', context)
@@ -81,35 +85,37 @@ def detail_blog_view(request, slug):
 
 
 def edit_blog_view(request, slug):
-	
-	context = {}
-	user = request.user
-	if not user.is_authenticated:
-		return redirect('must_authenticate')
+    context = {}
+    user = request.user
 
-	blog_post = get_object_or_404(BlogPost, slug=slug)
+    if not user.is_authenticated:
+        return redirect('must_authenticate')
 
-	if blog_post.author != user:
-		return HttpResponse("You are not the author of the post")
+    blog_post = get_object_or_404(BlogPost, slug=slug)
 
-	if request.POST:
-		form = EditBlogPostForm(request.POST or None, request.FILES or None, instance=blog_post)
-		if form.is_valid():
-			obj = form.save(commit=False)
-			obj.save()
-			context['success_message'] = "Updated"
-			blog_post = obj
-	
-	form = EditBlogPostForm(
+    if blog_post.author != user:
+        return HttpResponse("You are not the author of the post")
+
+    if request.POST:
+        form = EditBlogPostForm(request.POST or None, request.FILES or None, instance=blog_post)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.save()
+            blog_post = obj
+            if obj.status == 'draft':
+                context['success_message'] = 'Blog successfully saved as draft'
+            elif obj.status == 'in_review':
+                context['success_message'] = 'The blog is sent for approval to publish'
+        
+    form = EditBlogPostForm(
 			initial={
 					"title": blog_post.title, 
 					"body": blog_post.body,
 					"image": blog_post.image,
 				}
 			)
-	context['form'] = form
-
-	return render(request, 'blog/edit_blog.html', context)
+    context['form'] = form
+    return render(request, 'blog/edit_blog.html', context)
 
 
 def get_blog_queryset(query=None):
@@ -210,3 +216,21 @@ def subscribe(request):
 
     logger.debug(f'Called subscribe: {response_data}, is_form_valid={is_form_valid}')
     return JsonResponse(response_data)
+
+
+def get_author_info(request):
+    author_id = request.user.id
+
+    # Validate if the author_id is correct
+    try:
+        author = Account.objects.get(id=author_id)
+    except Account.DoesNotExist:
+        return JsonResponse({'error': 'Invalid author_id'})
+
+    # Perform logic to get dynamic information based on author and title
+    # Replace this with your actual logic to fetch data from the database or other sources
+    dynamic_info = {
+        'authorId': author_id,
+    }
+
+    return JsonResponse(dynamic_info)

@@ -13,6 +13,16 @@ def upload_location(instance, filename, **kwargs):
     return file_path
 
 class BlogPost(models.Model):
+    DRAFT = 'draft'
+    IN_REVIEW = 'in_review'
+    PUBLISHED = 'published'
+
+    STATUS_CHOICES = [
+        (DRAFT, 'Draft'),
+        (IN_REVIEW, 'In Review'),
+        (PUBLISHED, 'Published'),
+    ]
+
     title               = models.CharField(max_length=100, null=False, blank=False)
     body                = RichTextField(max_length=5000)    
     image               = models.ImageField(upload_to=upload_location, null=False, blank=False)    
@@ -22,6 +32,7 @@ class BlogPost(models.Model):
     slug                = models.SlugField(blank=True, unique=True)
     read_count          = models.PositiveIntegerField(default=0)
     likes               = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_posts', blank=True)
+    status              = models.CharField(max_length=20, choices=STATUS_CHOICES, default=DRAFT)
 
 
     
