@@ -80,7 +80,6 @@ INSTALLED_APPS = [
     #additional apps 
     # Rich Text Editor
     'ckeditor',
-    'django_quill',
     'ckeditor_uploader',
 
 
