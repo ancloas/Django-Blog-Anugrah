@@ -223,6 +223,12 @@ CSRF_TRUSTED_ORIGINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS").split(",")
 
 CKEDITOR_UPLOAD_PATH = 'blog/'  # Placeholder, will be dynamically determined by the upload_location function
 CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Full',
+        'height': 300,
+        'width': '100%',
+        # Other configuration options...
+    },
     'blog': {
         'toolbarGroups': [
             {'name': 'document', 'groups': ['mode', 'document', 'doctools']},

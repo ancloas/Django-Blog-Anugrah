@@ -1,92 +1,88 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load static %}
 
+{% block content %}
+
 <style>
+  .form-signin {
+    max-width: 330px;
+    padding: 15px;
+  }
 
-    .form-signin {
-      max-width: 330px;
-      padding: 15px;
-    }
-    
-    .form-signin .form-floating:focus-within {
-      z-index: 2;
-    }
-    
-    .form-signin input[type="email"] {
-      margin-bottom: 10px;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-    
-    .form-signin input[type="text"] {
-      margin-bottom: 10px;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-    
-    .form-signin input[type="password"] {
-      margin-bottom: -1px;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-    
-    .h3{
-     text-align: center;   
-    }
-   
-.pink-button{
-  background-color: rgb(233, 62, 62);
-}
+  .form-signin .form-floating:focus-within {
+    z-index: 2;
+  }
 
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .blog-posts {
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
+  }
+
+  /* Additional Styling for Cooler Look */
+  .blog-post-container {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .blog-post-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .blog-post-status {
+    font-size: 14px;
+    color: #555;
+  }
+
+  .blog-post-link {
+    text-decoration: none;
+    color: #007bff;
+  }
 </style>
-    
-    <form class="form-signin m-auto" method="post">
-      {% csrf_token %}
-        <!-- <img class="mb-4" src="{% static 'Anugrah.jpg' %}" alt="" width="72" height="57"> -->
-        <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
-    
-        <div class="form-floating">
-          <input type="email" name ="email" class="form-control form-signin input" id="floatingInput" placeholder="name@example.com"
-          required autofocus>
-          <label for="floatingInput">Email address</label>
-        </div>
-        <div class="form-floating">
-            <input type="text" name ="username" class="form-control form-signin input" id="inputUsername" placeholder="username" required>
-            <label for="floatingInput">Username</label>
-        </div>
-        <div class="form-floating">
-          <input type="password" name="password1" class="form-control form-signin input" id="floatingPassword" placeholder="Password" required>
-          <label for="floatingPassword">Password</label>
-        </div>
-        <div class="form-floating">
-            <input type="password" name="password2" class="form-control form-signin input" id="floatingPassword" placeholder="Confirm Password" required>
-            <label for="floatingPassword">Confirm Password</label>
-        </div>
-        {% for field in registration_form %}
-         <p>
-            {% for error in field.errors %}
-                 <p style="color:red;">{{error}}</p>
+
+<div>
+  <!-- Your Profile Form -->
+  <!-- ... -->
+
+  <!-- Change Password Link -->
+  <!-- ... -->
+
+  <!-- Blog Posts List -->
+  <div class="container mt-4 p-4">
+    <div class="row">
+      <div class="blog-posts">
+        <h3 class="mb-3 font-weight-normal">Blog Posts:</h3>
+        {% if blog_posts %}
+          <div class="list-group">
+            {% for post in blog_posts %}
+              <div class="blog-post-container">
+                <a href="{% url 'blog:detail' post.slug %}" class="blog-post-link">
+                  <h4 class="blog-post-title">{{ post.title }}</h4>
+                </a>
+                <p class="blog-post-status">Status: {{ post.get_status_display }}</p>
+              </div>
             {% endfor %}
-         </p>
-        {% endfor %}
-        
-        {% if registration_form.non_field_errors %}
-        <div style="color: red;">
-        <p> {{registration_form.non_field_errors}} </p>
-        </div>
+          </div>
+        {% else %}
+          <p>You don't have any blog posts. <a href="{% url 'blog:create' %}">Create a new post</a></p>
         {% endif %}
-
-        
-        {% if success_message %}
-         <p style="color:green; text-align: center;">{{success_message}}
-        </p>
-        {% endif %}
-    
-        <button class="w-100 btn btn-lg btn-primary pink-button" type="submit">Register</button>
-        <p class="mt-5 mb-3 text-muted">© 2017–2022</p>
-      </form>
-
-{% endblock content%}
-    
-
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

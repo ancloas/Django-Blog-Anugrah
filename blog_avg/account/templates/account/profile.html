@@ -4,35 +4,59 @@
 {% block content %}
 
 
-<style>
 
-    .form-signin {
-      max-width: 330px;
-      padding: 15px;
-    }
-    
-    .form-signin .form-floating:focus-within {
-      z-index: 2;
-    }
-    
-    .form-signin input[type="email"] {
-      margin-bottom: -1px;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-    
-    .form-signin input[type="password"] {
-      margin-bottom: 10px;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-    .blog-posts
-    {
-      max-width: 500px;
-      width: 100%;
-      margin: auto;
-    }
+<style>
+  .form-signin {
+    max-width: 330px;
+    padding: 15px;
+  }
+
+  .form-signin .form-floating:focus-within {
+    z-index: 2;
+  }
+
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .blog-posts {
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
+  }
+
+  /* Additional Styling for Cooler Look */
+  .blog-post-container {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .blog-post-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .blog-post-status {
+    font-size: 14px;
+    color: #555;
+  }
+
+  .blog-post-link {
+    text-decoration: none;
+    color: #007bff;
+  }
 </style>
+
 
 <div>
 <form class="form-signin m-auto" method="post">{% csrf_token %}
@@ -75,25 +99,27 @@
   <div class ="d-flex flex-column">
     <a  class= "m-auto" href="{% url 'password_change' %}"> Change Password</a>
   </div>
-
-  <!--blog posts list of user-->
-  <div class="container mt-4 p-4">
-    <div class ="row">
-      <div class="blog-posts">
-        <h3 class="mb-3 font-weight-normal">Blog Posts:</h3>
-          {% if blog_posts %}
-          <ul class="list-group">
+<!-- Blog Posts List -->
+<div class="container mt-4 p-4">
+  <div class="row">
+    <div class="blog-posts">
+      <h3 class="mb-3 font-weight-normal">Blog Posts:</h3>
+      {% if blog_posts %}
+        <div class="list-group">
           {% for post in blog_posts %}
-          <a href="{% url 'blog:detail' post.slug %}" style="text-decoration: none;">
-            <li class="list-group-item">{{post}}</li>
-          </a>
+            <div class="blog-post-container">
+              <a href="{% url 'blog:detail' post.slug %}" class="blog-post-link">
+                <h4 class="blog-post-title">{{ post.title }}</h4>
+              </a>
+              <p class="blog-post-status">Status: {{ post.get_status_display }}</p>
+            </div>
           {% endfor %}
-        </ul>
-        {% else %}
-        <p>You don't have any blog posts. <a href="{% url 'blog:create' %}">Create a mew post</a></p>
-        {% endif %}
-      </div>
+        </div>
+      {% else %}
+        <p>You don't have any blog posts. <a href="{% url 'blog:create' %}">Create a new post</a></p>
+      {% endif %}
     </div>
   </div>
+</div>
 </div>
 {% endblock content%}

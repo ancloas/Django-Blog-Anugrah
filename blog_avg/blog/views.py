@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from django.db.models import Count
 from django.http import JsonResponse
 import logging
+from django.http import Http404
+from operator import attrgetter
+
 
 
 from blog.models import BlogPost, Comment, Subscriber
@@ -118,21 +121,25 @@ def edit_blog_view(request, slug):
     return render(request, 'blog/edit_blog.html', context)
 
 
-def get_blog_queryset(query=None):
-	queryset= []
-	queries= query.split(" ")  
-	for q in queries: 
-		posts= BlogPost.objects.filter(Q(title__icontains=q) | Q(body__icontains=q)).distinct()
-
-		for post in posts:
-			queryset.append(post)
-
-	return list(set(queryset))
+def get_blog_queryset(query=None, status=None):
+    queryset= []
+    if query:
+        queries= query.split(" ")  
+    else:
+        queries=['']
+    for q in queries: 
+        posts= BlogPost.objects.filter(Q(title__icontains=q) | Q(body__icontains=q)).distinct()
+        if status:
+            posts = posts.filter(status=status)
+        for post in posts:
+            queryset.append(post)
+    
+    return list(set(queryset))
 	
 
-def get_popular_blogs():
-    context ={}
-    popular_posts = BlogPost.objects.annotate(num_reads=Count('read_count')).order_by('-read_count')[:4]
+def get_popular_blogs(blog_posts_list):
+    popular_posts = sorted(blog_posts_list, key= attrgetter('read_count'), reverse=True)[:5]
+    
     print([post.title for post in popular_posts])
     return popular_posts
 
@@ -234,3 +241,38 @@ def get_author_info(request):
     }
 
     return JsonResponse(dynamic_info)
+
+
+def approve_blog_post_view(request, slug):
+    context={}
+    try:
+        blog_post = BlogPost.objects.get(slug=slug)
+    except BlogPost.DoesNotExist:
+        raise Http404("Blog post not found")
+
+    if not request.user.is_editor:
+        return render(request, 'editor/access_denied.html')  # Create a template for access denied
+
+    
+    if request.method == 'POST':
+        # Change the status to 'published' or any other desired status
+        blog_post.status = 'published'
+        blog_post.save()
+        context['message']=f'Approved {blog_post.title}'
+
+    
+    return  redirect('blog:in_review_posts')
+
+
+
+
+
+def in_review_blog_view(request):
+    
+    blog_posts = get_blog_queryset(status='in_review')
+
+    context = {
+        'blog_posts': blog_posts,
+    }
+
+    return render(request, 'editor/in_review_blog_posts.html', context)

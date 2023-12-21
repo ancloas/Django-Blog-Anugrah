@@ -47,10 +47,10 @@ def home_screen_view(request, context={}):
         context['query'] = str(query)
 
 
-    blog_posts = sorted(get_blog_queryset(query), key= attrgetter('date_published'), reverse=True)
+    blog_posts = sorted(get_blog_queryset(query, status='published'), key= attrgetter('date_published'), reverse=True)
 
     #get top most popular blogs
-    popular_posts= get_popular_blogs()
+    popular_posts= get_popular_blogs(blog_posts)
 
     #   Pagination
     page = request.GET.get('page', 1)

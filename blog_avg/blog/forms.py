@@ -65,3 +65,4 @@ class SubscriberForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'name-input', 'placeholder': 'Enter your name'}),
             'email': forms.EmailInput(attrs={'class': 'email-input', 'placeholder': 'Enter your email'}),
         }
+

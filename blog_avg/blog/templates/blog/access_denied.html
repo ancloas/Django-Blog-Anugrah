@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<div class="container">
+    <div class="d-flex flex-column">
+        <p class="m-auto">Only an editor can approve the blog posts</p>
+        <p class="m-auto">
+            <a href="{% url 'account:register' %}">Register</a> or 
+            <a href="{% url 'account:login' %}">Login</a> 
+        </p>    
+    </div>
+</div>
+
+
+{% endblock content %}
