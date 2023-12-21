@@ -43,7 +43,7 @@
 </style>
 <div>
 <div class="container">
-  <div class="row" style="background-color: rgba(189, 197, 230, 0.507);">
+  <div class="row" style="background-color:  rgb(255, 121, 111);">
   <div class="left-column col-lg-2 p-0"> 
     <a href="{% url 'home' %}" >    
       <img src="{% static 'bubble-of-thoughts-high-resolution-logo-black-on-transparent-background.svg' %}" alt="Bubble of Thoughts" width="100%" style="max-height: 200px; max-width: 200px;"> 
@@ -78,6 +78,9 @@
                 <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
                 {% if request.user.is_writer %}
                 <li><a class="dropdown-item" href="{% url 'blog:create' %}">Write a new Blog Post</a></li>
+                {% endif %}
+                {% if request.user.is_editor %}
+                <li><a class="dropdown-item" href="{% url 'blog:in_review_posts' %}">Review Guest Blogs</a></li>
                 {% endif %}
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>

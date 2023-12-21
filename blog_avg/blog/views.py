@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from django.db.models import Count
 from django.http import JsonResponse
 import logging
+from django.http import Http404
+from operator import attrgetter
+
 
 
 from blog.models import BlogPost, Comment, Subscriber
@@ -11,7 +14,8 @@ from blog.forms import CreateBlogPostForm, EditBlogPostForm, SubscriberForm
 from account.models import Account
 from django.contrib import messages
 from personal.mail_module import send_mail
- 
+from django.http import JsonResponse
+from account.models import Account
 
 logger = logging.getLogger(__name__)
 
@@ -46,8 +50,11 @@ def create_blog_view(request):
         obj.save()  
         form =  CreateBlogPostForm()
         context['is_saved']=True
-        
-
+        if obj.status=='draft':
+             context['success_message']='Blog successfully saved as draft'
+        elif obj.status=='in_review':
+             context['success_message']='the blog is sent for approval to publish'
+    
     context['form'] =   form
 
     return render(request, 'blog/create_blog.html', context)
@@ -81,52 +88,58 @@ def detail_blog_view(request, slug):
 
 
 def edit_blog_view(request, slug):
-	
-	context = {}
-	user = request.user
-	if not user.is_authenticated:
-		return redirect('must_authenticate')
+    context = {}
+    user = request.user
 
-	blog_post = get_object_or_404(BlogPost, slug=slug)
+    if not user.is_authenticated:
+        return redirect('must_authenticate')
 
-	if blog_post.author != user:
-		return HttpResponse("You are not the author of the post")
+    blog_post = get_object_or_404(BlogPost, slug=slug)
 
-	if request.POST:
-		form = EditBlogPostForm(request.POST or None, request.FILES or None, instance=blog_post)
-		if form.is_valid():
-			obj = form.save(commit=False)
-			obj.save()
-			context['success_message'] = "Updated"
-			blog_post = obj
-	
-	form = EditBlogPostForm(
+    if blog_post.author != user:
+        return HttpResponse("You are not the author of the post")
+
+    if request.POST:
+        form = EditBlogPostForm(request.POST or None, request.FILES or None, instance=blog_post)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.save()
+            blog_post = obj
+            if obj.status == 'draft':
+                context['success_message'] = 'Blog successfully saved as draft'
+            elif obj.status == 'in_review':
+                context['success_message'] = 'The blog is sent for approval to publish'
+        
+    form = EditBlogPostForm(
 			initial={
 					"title": blog_post.title, 
 					"body": blog_post.body,
 					"image": blog_post.image,
 				}
 			)
-	context['form'] = form
+    context['form'] = form
+    return render(request, 'blog/edit_blog.html', context)
 
-	return render(request, 'blog/edit_blog.html', context)
 
-
-def get_blog_queryset(query=None):
-	queryset= []
-	queries= query.split(" ")  
-	for q in queries: 
-		posts= BlogPost.objects.filter(Q(title__icontains=q) | Q(body__icontains=q)).distinct()
-
-		for post in posts:
-			queryset.append(post)
-
-	return list(set(queryset))
+def get_blog_queryset(query=None, status=None):
+    queryset= []
+    if query:
+        queries= query.split(" ")  
+    else:
+        queries=['']
+    for q in queries: 
+        posts= BlogPost.objects.filter(Q(title__icontains=q) | Q(body__icontains=q)).distinct()
+        if status:
+            posts = posts.filter(status=status)
+        for post in posts:
+            queryset.append(post)
+    
+    return list(set(queryset))
 	
 
-def get_popular_blogs():
-    context ={}
-    popular_posts = BlogPost.objects.annotate(num_reads=Count('read_count')).order_by('-read_count')[:4]
+def get_popular_blogs(blog_posts_list):
+    popular_posts = sorted(blog_posts_list, key= attrgetter('read_count'), reverse=True)[:5]
+    
     print([post.title for post in popular_posts])
     return popular_posts
 
@@ -210,3 +223,56 @@ def subscribe(request):
 
     logger.debug(f'Called subscribe: {response_data}, is_form_valid={is_form_valid}')
     return JsonResponse(response_data)
+
+
+def get_author_info(request):
+    author_id = request.user.id
+
+    # Validate if the author_id is correct
+    try:
+        author = Account.objects.get(id=author_id)
+    except Account.DoesNotExist:
+        return JsonResponse({'error': 'Invalid author_id'})
+
+    # Perform logic to get dynamic information based on author and title
+    # Replace this with your actual logic to fetch data from the database or other sources
+    dynamic_info = {
+        'authorId': author_id,
+    }
+
+    return JsonResponse(dynamic_info)
+
+
+def approve_blog_post_view(request, slug):
+    context={}
+    try:
+        blog_post = BlogPost.objects.get(slug=slug)
+    except BlogPost.DoesNotExist:
+        raise Http404("Blog post not found")
+
+    if not request.user.is_editor:
+        return render(request, 'editor/access_denied.html')  # Create a template for access denied
+
+    
+    if request.method == 'POST':
+        # Change the status to 'published' or any other desired status
+        blog_post.status = 'published'
+        blog_post.save()
+        context['message']=f'Approved {blog_post.title}'
+
+    
+    return  redirect('blog:in_review_posts')
+
+
+
+
+
+def in_review_blog_view(request):
+    
+    blog_posts = get_blog_queryset(status='in_review')
+
+    context = {
+        'blog_posts': blog_posts,
+    }
+
+    return render(request, 'editor/in_review_blog_posts.html', context)

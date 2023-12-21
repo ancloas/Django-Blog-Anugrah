@@ -22,7 +22,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-7 offset-lg-1">
-			<form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+			<form id ='blogPostForm' class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
 
 				<!-- title -->
 				<div class="form-group">
@@ -34,6 +34,10 @@
 				<div class="form-group">
 					<label for="{{ form.body.id_for_label }}">Body</label>
 					{{ form.body }}
+				</div>
+				
+				<div>
+				{{ form.status }}
 				</div>
 
 				<!-- Image -->
@@ -59,17 +63,29 @@
 
 				<!--Success Message-->
 				{% if is_saved %}
-					<p>the blog is saved correctly</p>
+					<p id="message">{{success_message}}</p>
 				{% endif %}
 				
 				<!-- Submit btn -->
-				<button class="submit-button btn btn-lg btn-primary btn-block" type="submit">POST</button>
+				<button  class="submit-button btn btn-lg btn-primary btn-block"  type="button" onclick="saveAsDraft()">Save as Draft</button>
+				<button  class="submit-button btn btn-lg btn-primary btn-block"  type="button" onclick="sendForReview()">Publish</button>
 			</form>	
 		</div>
 	</div>
 </div>
+<script>
+ function saveAsDraft() {
+        document.getElementById('id_status').value = 'draft';
+		document.getElementById('blogPostForm').submit();
+		// document.getElementById('message').innerHTML='the blog is successfully saved to the Draft'
+        // You can add additional logic or actions here if needed
+    }
 
-
-
-
+    function sendForReview() {
+        document.getElementById('id_status').value = 'in_review';
+		document.getElementById('blogPostForm').submit();
+		// document.getElementById('message').innerHTML='the blog is sent for approval to publish'
+        // You can add additional logic or actions here if needed
+    }
+</script>
 {% endblock content %}

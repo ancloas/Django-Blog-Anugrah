@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>Welcome, Editor!</h2>
+
+    <!-- List of Blog Posts -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in blog_posts %}
+          <tr>
+            <td><a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a></td>
+            <td>{{ post.get_status_display }}</td>
+            <td>
+              <a class='btn btn-primary' href="{% url 'blog:edit' post.slug %}">Edit</a>
+              {% if post.status == 'in_review' %}
+                <form method="post" action="{% url 'blog:approve_blog_post' post.slug %}" style="display: inline;">
+                  {% csrf_token %}
+                  <input class='btn btn-primary' type="submit" value="Approve">
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

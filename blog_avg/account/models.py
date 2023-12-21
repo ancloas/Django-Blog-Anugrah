@@ -24,6 +24,7 @@ class MyAccountManager(BaseUserManager):
         user.is_admin=True
         user.is_staff= True
         user.is_superuser=True
+        user.is_editor= False
         user.save()
         print(password)
         print("function was called")
@@ -41,6 +42,7 @@ class Account(AbstractBaseUser):
     is_staff        =   models.BooleanField(default=False)
     is_superuser    =   models.BooleanField(default=False)  
     is_writer       =   models.BooleanField(default=False)  
+    is_editor       =   models.BooleanField(default=False)  
 
     USERNAME_FIELD='email'
     REQUIRED_FIELDS = []

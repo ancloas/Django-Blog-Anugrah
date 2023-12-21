@@ -18,15 +18,18 @@
   .popular .card {
     margin-bottom: 30px;
     width: 400px;
-    min-height: 400px;
-    max-height: 100%;
-    border: none;
+    border:none;
+    max-height: 370px;
     background-color: none;
+    padding: 0px;
+    max-height: 370px;
   }
-  
+
   .popular .card-img-top {
-    height: 200px;
-    object-fit: cover;
+    max-height: 180px;
+    object-fit:cover;
+    border: solid 1px black;
+    border-bottom: none;
   }
   
   .popular .card-title {
@@ -41,6 +44,7 @@
     border-color: #002864;
     font-size: 0.7rem;
     font-weight: 700;
+    margin: 4px;
   }
   
   .popular .btn-primary:hover {
@@ -52,15 +56,28 @@
 }
 .popular .card-footer {
   text-align: center;
-  border: none;
-  margin-top: 5px;
-  background-color: rgba(172, 255, 47, 0);
+  padding: 5px;
+  background-color: rgb(255, 232, 232);
+  border: solid 1px;
+  border-top: none;
 }
-
 .popular .card-footer-text {
     font-size: 1.0rem;
-    color: #6e0101;
   }
+
+.popular .card-body h5{
+  text-align: center;
+}
+
+.popular .card-body {
+  padding: 0px;
+  margin-bottom: 0px;
+}
+.hr-style {
+  margin-bottom: 30px;
+  border:2px solid;
+  border-color: #002253;  /* You can replace this color with your preferred color */
+}
 </style>
 <!-- 
 <div class="blog-post-container highlighted_post">
@@ -73,14 +90,12 @@
         {% for post in popular_posts %}
         <div class="col-md-6">
           <div class="card">
-            <a href="{% url 'blog:detail' post.slug %}">
-              <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-img-top">
-            </a>
             <div class="card-body">
               <a href="{% url 'blog:detail' post.slug %}" class="no-underline">
                 <h5 class="card-title">{{ post.title }}</h5> 
               </a>
-            </div>
+            </div>  
+            <a href="{% url 'blog:detail' post.slug %}"><img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-img-top"></a>           
             <div class="card-footer"> 
             <p class="card-footer-text"><small class="text-muted">{{ post.date_published|date:"F j, Y" }} by {{ post.author }}</small></p>
             <a href="{% url 'blog:detail' post.slug %}" class="btn btn-primary">Read More</a>
@@ -90,4 +105,5 @@
         {% endfor %}
       </div>
     </div>
-  </section>
+    <hr class="hr-style">
+</section>

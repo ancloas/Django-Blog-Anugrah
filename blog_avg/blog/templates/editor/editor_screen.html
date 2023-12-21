@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>Welcome, Editor!</h2>
+
+    <!-- List of Blog Posts -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in blog_posts %}
+          <tr>
+            <td>{{ post.title }}</td>
+            <td>{{ post.get_status_display }}</td>
+            <td>
+              <a href="{% url 'edit' post.slug %}">Edit</a>
+              {% if post.status == 'in_review' %}
+                | <a href="{% url 'approve_blog' post.slug %}">Approve</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}
